@@ -38,7 +38,7 @@ const Line = ({ x1, y1, x2, y2 }) => {
 };
 
 const MapPage = ({ cb }) => {
-	const [path, setPath] = useState([]);
+	const [target, setTarget] = useState([]);
 	const [lines, setLines] = useState([]);
 
 	const ClickHandler = ({ name, hoverText }) => {
@@ -64,7 +64,7 @@ const MapPage = ({ cb }) => {
 	useEffect(() => {
 		const f = async () => {
 			await axios.post("http://localhost:5000/select-galaxy", {
-				name: "leo",
+				name: target,
 			});
 			const res = await axios.get("http://localhost:5000/shortest-path");
 			console.log(res.data.path.map((x) => numberToGalaxy[x]));
@@ -79,7 +79,7 @@ const MapPage = ({ cb }) => {
 			setLines(lines);
 		};
 		f();
-	}, [path]);
+	}, [target]);
 
 	return (
 		<>
@@ -97,7 +97,7 @@ const MapPage = ({ cb }) => {
             <ClickHandler name={"Cosmos Redshift7"} hoverText="Cosmos Redshift7 Galaxy"/>
             <ClickHandler name={"Aquarius dwarf"} hoverText="Aquarius dwarf Galaxy"/> */}
 
-			<Console cb={cb} />
+			<Console cb={cb} path={setTarget}/>
 		</>
 	);
 };

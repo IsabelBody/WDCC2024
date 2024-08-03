@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const Console = ({ cb }) => {
+const Console = ({ cb, path }) => {
     const [input, setInput] = useState("")
 
     const command = (input) => {
@@ -8,7 +8,15 @@ const Console = ({ cb }) => {
         switch (args[0]) {
             case "info":
                 console.log(args[1])
-                cb("/info/" + args[1])
+                cb(`/info/${args[1]}`)
+                break
+            case "map":
+                console.log(args[1])
+                cb("/")
+                break
+            case "path":
+                console.log(args[1])
+                path(args[1])
                 break
             default:
                 console.log("Unknown command")
@@ -18,7 +26,7 @@ const Console = ({ cb }) => {
     return (
         <div className="console">
             <input value={input} onChange={(e) => setInput(e.target.value)} />
-            <button onClick={() => command(input)}>Log</button>
+            <button type="button" onClick={() => command(input)}>Enter</button>
         </div>
     )
 }
