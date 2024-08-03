@@ -21,24 +21,22 @@ function App() {
         setError('');
 
         // Immediately calculate the shortest path to the selected galaxy
-        if (name) {
-          axios.post('http://localhost:5000/select-galaxy', { node: nodeName })
-            .then(() => {
-              axios.get(`http://localhost:5000/shortest-path/${nodeName}`)
-                .then(response => {
-                  setPath(response.data.path);
-                  setPathCost(response.data.total_cost);
-                })
-                .catch(() => {
-                  setPath([]);
-                  setPathCost(null);
-                  setError('Failed to calculate path');
-                });
-            })
-            .catch(() => {
-              setSelectedMessage('Failed to select galaxy');
-            });
-        }
+        axios.post('http://localhost:5000/select-galaxy', { node: parseInt(nodeName) })
+          .then(() => {
+            axios.get('http://localhost:5000/shortest-path')
+              .then(response => {
+                setPath(response.data.path);
+                setPathCost(response.data.total_cost);
+              })
+              .catch(() => {
+                setPath([]);
+                setPathCost(null);
+                setError('Failed to calculate path');
+              });
+          })
+          .catch(() => {
+            setSelectedMessage('Failed to select galaxy');
+          });
       })
       .catch(() => {
         setGalaxyName('');
@@ -53,10 +51,10 @@ function App() {
       <header className="App-header">
         <h1>Search Galaxy Node</h1>
         <input
-          type="text"
+          type="number"
           value={nodeName}
           onChange={(e) => setNodeName(e.target.value)}
-          placeholder="Enter node ID (e.g., g_1)"
+          placeholder="Enter node ID (e.g., 0)"
         />
         <button onClick={handleSearch}>Search</button>
         {error && <p style={{ color: 'red' }}>{error}</p>}
