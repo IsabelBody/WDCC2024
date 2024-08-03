@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Console from "./Console";
-import background from "./assets/Untitled.png";
+import background from "./assets/space.png";
+import noise from "./assets/nnnoise.svg";
 import axios from "axios";
 import LocationBox from "./Location";
 
@@ -26,9 +27,19 @@ const numberToGalaxy = {
 	4: "leo",
 };
 
-const Line = ({ x1, y1, x2, y2 }) => {
+const Line = ({ x1, y1, x2, y2, seed}) => {
+    const [visible, setVisible] = useState(true);
+
+    useEffect(() => {
+        const random = visible ? Math.random() * 2500 : Math.random() * 200;
+        const interval = setTimeout(() => {
+            setVisible(!visible);
+        }, random);
+        return () => clearTimeout(interval);
+    }, [visible]);
+
 	return (
-		<line
+		visible && <line
 			x1={x1}
 			y1={y1}
 			x2={x2}
@@ -40,7 +51,7 @@ const Line = ({ x1, y1, x2, y2 }) => {
 
 const MapPage = ({ cb }) => {
 	const [target, setTarget] = useState(null);
-    const [current, setCurent] = useState("wdcc");
+    const [current, setCurrent] = useState("andromeda");
 	const [lines, setLines] = useState([]);
 
 	const ClickHandler = ({ name, hoverText }) => {
@@ -49,7 +60,7 @@ const MapPage = ({ cb }) => {
 			<>
 				<button
 					type="button"
-					className={`galaxyButton ${name}`}
+					className={`galaxyButton ${name} ${current === name ? "current" : ""}`}
 					style={{
 						left: `${locations[name].x - 45}px`,
 						top: `${locations[name].y - 45}px`,
@@ -65,6 +76,7 @@ const MapPage = ({ cb }) => {
 
 	useEffect(() => {
 		const f = async () => {
+            if (!target) return;
 			await axios.post("http://localhost:5000/select-galaxy", {
 				name: target,
 			});
@@ -83,9 +95,17 @@ const MapPage = ({ cb }) => {
 		f();
 	}, [target]);
 
+    const travel = async () => {
+        await axios.post("http://localhost:5000/travel");
+        setCurrent(target);
+        setTarget(null);
+        setLines([]);
+    }
+
 	return (
 		<>
 			<img className="background" src={background} alt="background" />
+            {/* <img className="background" src={noise} alt="background" /> */}
 			<div className="canvas">
 				<svg width="100%" height="100%">
 					{lines}
@@ -112,13 +132,16 @@ const MapPage = ({ cb }) => {
                     <p>{"> Leo"}</p>
                     <p>{"> Andromeda"}</p>
                 </div>
+                <div className="sidebox">
+                    <p>{`Type "travel" to navigate`}</p>
+                </div>
             </div>}
 			{/* <ClickHandler name={"Leo"} hoverText="Leo Galaxy"/>
             <ClickHandler name={"Tukana Dwarf"} hoverText="Tukana Dwarf Galaxy"/>
             <ClickHandler name={"Cosmos Redshift7"} hoverText="Cosmos Redshift7 Galaxy"/>
             <ClickHandler name={"Aquarius dwarf"} hoverText="Aquarius dwarf Galaxy"/> */}
 
-			<Console cb={cb} path={setTarget}/>
+			<Console cb={cb} path={setTarget} travel={travel}/>
 		</>
 	);
 };

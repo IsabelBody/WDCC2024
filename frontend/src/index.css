@@ -120,6 +120,15 @@ button:focus-visible {
   position: absolute;
 }
 
+.galaxyButton.current::after {
+  content: "";
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  border: 2px solid green;
+  box-sizing: border-box;
+}
+
 .hoverText{
   color: black;
   
