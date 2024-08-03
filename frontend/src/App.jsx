@@ -12,7 +12,7 @@ function App() {
     if (!startNode || !endNode) return;
 
     // Fetch the shortest path from the Flask backend
-    axios.get(`http://localhost:5000/shortest-path/${startNode}/${endNode}`)
+    axios.get(`http://127.0.0.1:5000/shortest-path/${startNode}/${endNode}`)
       .then(response => {
         setPathInfo(response.data);
         setError('');
