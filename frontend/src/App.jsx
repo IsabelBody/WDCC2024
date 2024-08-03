@@ -1,35 +1,48 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import axios from 'axios';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [nodeName, setNodeName] = useState('');
+  const [galaxyName, setGalaxyName] = useState('');
+  const [error, setError] = useState('');
+
+  const handleSearch = () => {
+    if (!nodeName) return;
+
+    // Fetch the galaxy name from the Flask backend
+    axios.get(`http://localhost:5000/galaxy/${nodeName}`)
+      .then(response => {
+        setGalaxyName(response.data.name);
+        setError('');
+      })
+      .catch(error => {
+        setGalaxyName('');
+        setError('Node not found');
+      });
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="App">
+      <header className="App-header">
+        <h1>Search Galaxy Node</h1>
+        <input
+          type="text"
+          value={nodeName}
+          onChange={(e) => setNodeName(e.target.value)}
+          placeholder="Enter node ID (e.g., g_1)"
+        />
+        <button onClick={handleSearch}>Search</button>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {galaxyName && (
+          <div>
+            <h2>Galaxy Name</h2>
+            <p>{galaxyName}</p>
+          </div>
+        )}
+      </header>
+    </div>
+  );
 }
 
-export default App
+export default App;
