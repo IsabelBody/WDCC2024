@@ -1,12 +1,12 @@
 # dijkstra_implementation.py
 
-from dijkstar import Graph
+from dijkstar import Graph, find_path
 
 graph = Graph()
 
 # Initialized galaxy names
 node_descriptions = {
-    "g_1": "description 1",
+    "g_1": "Galaxy 1",
     "g_2": "Galaxy 2",
     "g_3": "Galaxy 3",
     "g_4": "Galaxy 4",
@@ -31,3 +31,8 @@ graph.add_edge("g_4", "g_6", 4)
 graph.add_edge("g_5", "g_6", 5)
 graph.add_edge("g_6", "g_7", 5)
 graph.add_edge("g_7", "g_8", 1)
+
+# Function to find the shortest path
+def find_shortest_path(node_1, node_2):
+    path = find_path(graph, node_1, node_2)
+    return path
