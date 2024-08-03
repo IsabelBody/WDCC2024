@@ -2,9 +2,10 @@ import { useState, useEffect, Children } from "react";
 import Console from "./Console";
 import background from "./assets/space.png";
 import noise from "./assets/noise.png";
-import edge from "./assets/edge.png";
+import banding from "./assets/banding.png";
 import axios from "axios";
 import LocationBox from "./Location";
+import Popup from "./Popop";
 
 const locations = {
 	andromeda: { x: "620", y: "200" },
@@ -60,6 +61,7 @@ const MapPage = ({ cb }) => {
 	const [target, setTarget] = useState(null);
 	const [current, setCurrent] = useState("andromeda");
 	const [lines, setLines] = useState([]);
+    const [popup, setPopup] = useState(false);
 
 	const ClickHandler = ({ name, hoverText }) => {
 		const [isHover, setIsHover] = useState(false);
@@ -98,6 +100,7 @@ const MapPage = ({ cb }) => {
 				);
 			}
 			setLines(lines);
+            setPopup(<Popup cb={() => setPopup(false)} />);
 		};
 		f();
 	}, [target]);
@@ -153,8 +156,11 @@ const MapPage = ({ cb }) => {
             <ClickHandler name={"Cosmos Redshift7"} hoverText="Cosmos Redshift7 Galaxy"/>
             <ClickHandler name={"Aquarius dwarf"} hoverText="Aquarius dwarf Galaxy"/> */}
 
+            {popup}
+
 			<Console cb={cb} path={setTarget} travel={travel} />
             <img className="foreground" src={noise} alt="background" />
+            <img className="foreground" src={banding} alt="background" style={{opacity: 0.6}} />
 		</>
 	);
 };
