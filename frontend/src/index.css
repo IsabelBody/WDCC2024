@@ -75,3 +75,8 @@ button:focus-visible {
   height: 100%;
   z-index: -1;
 }
+
+.console {
+  position: fixed;
+  bottom: 50px;
+}
