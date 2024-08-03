@@ -1,4 +1,4 @@
-import { useState, useEffect, Children } from "react";
+import { useState, useEffect } from "react";
 import Console from "./Console";
 import background from "./assets/space.png";
 import noise from "./assets/noise.png";
@@ -9,39 +9,39 @@ import Popup from "./Popop";
 import warning from "./assets/warning.svg";
 
 const locations = {
-	andromeda: { x: "620", y: "200" },
-	wdcc: { x: "830", y: "400" },
-	draco: { x: "200", y: "100" },
-	phoenix: { x: "250", y: "500" },
-	leo: { x: 50, y: 800 },
-	tucana_dwarf: { x: 600, y: 800 },
-	cosmic_redshift: { x: 1100, y: 700 },
-	aquarius_dwarf: { x: 1100, y: 280 },
+    andromeda: { x: "620", y: "200" },
+    wdcc: { x: "830", y: "400" },
+    draco: { x: "200", y: "100" },
+    phoenix: { x: "250", y: "500" },
+    leo: { x: 50, y: 800 },
+    tucana_dwarf: { x: 600, y: 800 },
+    cosmic_redshift: { x: 1100, y: 700 },
+    aquarius_dwarf: { x: 1100, y: 280 },
 };
 
 const numberToGalaxy = {
-	7: "andromeda",
-	0: "wdcc",
-	6: "draco",
-	5: "phoenix",
-	1: "aquarius_dwarf",
-	2: "cosmic_redshift",
-	3: "tucana_dwarf",
-	4: "leo",
+    7: "andromeda",
+    0: "wdcc",
+    6: "draco",
+    5: "phoenix",
+    1: "aquarius_dwarf",
+    2: "cosmic_redshift",
+    3: "tucana_dwarf",
+    4: "leo",
 };
 
 const Glitch = ({ time, children }) => {
-	const [visible, setVisible] = useState(true);
+    const [visible, setVisible] = useState(true);
 
-	useEffect(() => {
-		const random = visible ? Math.random() * time : Math.random() * 200;
-		const interval = setTimeout(() => {
-			setVisible(!visible);
-		}, random);
-		return () => clearTimeout(interval);
-	}, [visible, time]);
+    useEffect(() => {
+        const random = visible ? Math.random() * time : Math.random() * 200;
+        const interval = setTimeout(() => {
+            setVisible(!visible);
+        }, random);
+        return () => clearTimeout(interval);
+    }, [visible, time]);
 
-	return visible && children;
+    return visible && children;
 };
 
 const Line = ({ x1, y1, x2, y2, offset }) => {
@@ -54,102 +54,130 @@ const Line = ({ x1, y1, x2, y2, offset }) => {
         return () => clearTimeout(interval);
     }, [offset]);
 
-	return ( visible &&
-		<Glitch time={2500}>
-			<line
-				x1={x1}
-				y1={y1}
-				x2={x2}
-				y2={y2}
-				style={{ stroke: "white", strokeWidth: 2 }}
-			/>
-		</Glitch>
-	);
+    return (
+        visible && (
+            <Glitch time={2500}>
+                <line
+                    x1={x1}
+                    y1={y1}
+                    x2={x2}
+                    y2={y2}
+                    style={{ stroke: "white", strokeWidth: 2 }}
+                />
+            </Glitch>
+        )
+    );
 };
 
 const Warning = () => {
     return (
         <div className="warningIcon">
-            <img alt="warning" src={warning}/>
+            <img alt="warning" src={warning} />
             <span>!</span>
         </div>
-)
-}
+    );
+};
 
 const MapPage = ({ cb }) => {
-	const [target, setTarget] = useState(null);
-	const [current, setCurrent] = useState("andromeda");
-	const [lines, setLines] = useState([]);
+    const [target, setTarget] = useState(null);
+    const [current, setCurrent] = useState("andromeda");
+    const [lines, setLines] = useState([]);
     const [popup, setPopup] = useState(false);
-	const [unwanted, setUnwanted] = useState([]);
+    const [unwanted, setUnwanted] = useState([]);
 
-	const ClickHandler = ({ name, hoverText }) => {
-		const [isHover, setIsHover] = useState(false);
-		return (
-			<>
-            <div style={{
-						left: `${locations[name].x - 45}px`,
-						top: `${locations[name].y - 45}px`,
-					}}>
-				<button
-					type="button"
-					className={`galaxyButton ${name} ${current === name ? "current" : ""}`}
-					onMouseLeave={() => setIsHover(false)}
-					onMouseEnter={() => setIsHover(true)}
-					onClick={() => cb(`/info/${name}`)}
-				/>
-                <Warning />
+    const ClickHandler = ({ name, hoverText }) => {
+        const [isHover, setIsHover] = useState(false);
+        return (
+            <>
+                <div
+                    style={{
+                        position: "absolute",
+                        left: `${locations[name].x - 45}px`,
+                        top: `${locations[name].y - 45}px`,
+                    }}
+                >
+                    <button
+                        type="button"
+                        className={`galaxyButton ${name} ${
+                            current === name ? "current" : ""
+                        }`}
+                        onMouseLeave={() => setIsHover(false)}
+                        onMouseEnter={() => setIsHover(true)}
+                        onClick={() => cb(`/info/${name}`)}
+                    />
+                    <div
+                        className="label"
+                        style={{
+                            textAlign: "center",
+                            marginTop: "5px",
+                            color: "white",
+                        }}
+                    >
+                        {name}
+                    </div>
+                    {isHover && <div className={"hoverText"}>{hoverText}</div>}
+                    <Warning />
                 </div>
-				{isHover && <div className={"hoverText"}>{hoverText}</div>}
-			</>
-		);
-	};
+            </>
+        );
+    };
 
-	useEffect(() => {
-		const f = async () => {
-			if (!target) return;
-			await axios.post("http://localhost:5000/select-galaxy", {
-				name: target,
-			});
-			const res = await axios.post("http://localhost:5000/shortest-path", { unwanted: ["draco", "phoenix", "tucana_dwarf"] });
-			if (res.data.total_cost > 1000 ) {
-				setPopup(<Popup cb={() => setPopup(false)} />);
-				return;
-			}
-			console.log(res.data.path.map((x) => numberToGalaxy[x]));
-			const lines = [];
-			for (let i = 0; i < res.data.path.length - 1; i++) {
-				const from = locations[numberToGalaxy[res.data.path[i]]];
-				const to = locations[numberToGalaxy[res.data.path[i + 1]]];
-				lines.push(
-					<Line key={i} x1={from.x} y1={from.y} x2={to.x} y2={to.y} offset={(i + 1) * 1000} />,
-				);
-			}
-			setLines(lines);
-            // setPopup(<Popup cb={() => setPopup(false)} />);
-		};
-		f();
-	}, [target]);
+    useEffect(() => {
+        const f = async () => {
+            if (!target) return;
+            await axios.post("http://localhost:5000/select-galaxy", {
+                name: target,
+            });
+            const res = await axios.post("http://localhost:5000/shortest-path", {
+                unwanted: ["draco", "phoenix", "tucana_dwarf"],
+            });
+            if (res.data.total_cost > 1000) {
+                setPopup(<Popup cb={() => setPopup(false)} />);
+                return;
+            }
+            console.log(res.data.path.map((x) => numberToGalaxy[x]));
+            const lines = [];
+            for (let i = 0; i < res.data.path.length - 1; i++) {
+                const from = locations[numberToGalaxy[res.data.path[i]]];
+                const to = locations[numberToGalaxy[res.data.path[i + 1]]];
+                lines.push(
+                    <Line
+                        key={i}
+                        x1={from.x}
+                        y1={from.y}
+                        x2={to.x}
+                        y2={to.y}
+                        offset={(i + 1) * 1000}
+                    />
+                );
+            }
+            setLines(lines);
+        };
+        f();
+    }, [target]);
 
-	const travel = async () => {
-		await axios.post("http://localhost:5000/travel");
-		setCurrent(target);
-		setTarget(null);
-		setLines([]);
-	};
+    const travel = async () => {
+        await axios.post("http://localhost:5000/travel");
+        setCurrent(target);
+        setTarget(null);
+        setLines([]);
+    };
 
-	return (
-		<>
-			<img className="background" src={background} alt="background" />
-			{/* <img className="background" src={noise} alt="background" /> */}
-			<div className="canvas">
-				<svg width="100%" height="100%">
-					{lines}
-				</svg>
-				{Object.entries(locations).map((location, i) => (
-					<ClickHandler key={i} name={location[0]} hoverText={location[0]} />
-				))}
-			</div>
+    return (
+        <>
+            <img className="background" src={background} alt="background" />
+            <div className="canvas">
+                <svg width="100%" height="100%">
+                    {lines}
+                </svg>
+                {Object.entries(locations).map((location, i) => (
+                    <ClickHandler
+                        key={i}
+                        name={location[0]}
+                        hoverText={location[0]}
+                    />
+                ))}
+            </div>
             <Glitch time={10000}>
                 <div className="leftside">
                     <div className="sidebox">
@@ -162,7 +190,7 @@ const MapPage = ({ cb }) => {
                     <LocationBox location={current} />
                 </div>
             </Glitch>
-			{target && (
+            {target && (
                 <Glitch time={10000}>
                     <div className="rightside">
                         <LocationBox location={target} target={true} />
@@ -176,19 +204,18 @@ const MapPage = ({ cb }) => {
                         </div>
                     </div>
                 </Glitch>
-			)}
-			{/* <ClickHandler name={"Leo"} hoverText="Leo Galaxy"/>
-            <ClickHandler name={"Tukana Dwarf"} hoverText="Tukana Dwarf Galaxy"/>
-            <ClickHandler name={"Cosmos Redshift7"} hoverText="Cosmos Redshift7 Galaxy"/>
-            <ClickHandler name={"Aquarius dwarf"} hoverText="Aquarius dwarf Galaxy"/> */}
-
+            )}
             {popup}
-
-			<Console cb={cb} path={setTarget} travel={travel} />
+            <Console cb={cb} path={setTarget} travel={travel} />
             <img className="foreground" src={noise} alt="background" />
-            <img className="foreground" src={banding} alt="background" style={{opacity: 0.6}} />
-		</>
-	);
+            <img
+                className="foreground"
+                src={banding}
+                alt="background"
+                style={{ opacity: 0.6 }}
+            />
+        </>
+    );
 };
 
 export default MapPage;
