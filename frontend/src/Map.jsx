@@ -6,6 +6,7 @@ import banding from "./assets/banding.png";
 import axios from "axios";
 import LocationBox from "./Location";
 import Popup from "./Popop";
+import warning from "./assets/warning.svg";
 
 const locations = {
 	andromeda: { x: "620", y: "200" },
@@ -43,19 +44,37 @@ const Glitch = ({ time, children }) => {
 	return visible && children;
 };
 
-const Line = ({ x1, y1, x2, y2 }) => {
-	return (
+const Line = ({ x1, y1, x2, y2, offset }) => {
+    const [visible, setVisible] = useState(false);
+
+    useEffect(() => {
+        const interval = setTimeout(() => {
+            setVisible(true);
+        }, offset);
+        return () => clearTimeout(interval);
+    }, [offset]);
+
+	return ( visible &&
 		<Glitch time={2500}>
 			<line
 				x1={x1}
 				y1={y1}
 				x2={x2}
 				y2={y2}
-				style={{ stroke: "rgb(255,0,0)", strokeWidth: 2 }}
+				style={{ stroke: "white", strokeWidth: 2 }}
 			/>
 		</Glitch>
 	);
 };
+
+const Warning = () => {
+    return (
+        <div className="warningIcon">
+            <img alt="warning" src={warning}/>
+            <span>!</span>
+        </div>
+)
+}
 
 const MapPage = ({ cb }) => {
 	const [target, setTarget] = useState(null);
@@ -67,17 +86,19 @@ const MapPage = ({ cb }) => {
 		const [isHover, setIsHover] = useState(false);
 		return (
 			<>
+            <div style={{
+						left: `${locations[name].x - 45}px`,
+						top: `${locations[name].y - 45}px`,
+					}}>
 				<button
 					type="button"
 					className={`galaxyButton ${name} ${current === name ? "current" : ""}`}
-					style={{
-						left: `${locations[name].x - 45}px`,
-						top: `${locations[name].y - 45}px`,
-					}}
 					onMouseLeave={() => setIsHover(false)}
 					onMouseEnter={() => setIsHover(true)}
 					onClick={() => cb(`/info/${name}`)}
 				/>
+                <Warning />
+                </div>
 				{isHover && <div className={"hoverText"}>{hoverText}</div>}
 			</>
 		);
@@ -96,11 +117,11 @@ const MapPage = ({ cb }) => {
 				const from = locations[numberToGalaxy[res.data.path[i]]];
 				const to = locations[numberToGalaxy[res.data.path[i + 1]]];
 				lines.push(
-					<Line key={i} x1={from.x} y1={from.y} x2={to.x} y2={to.y} />,
+					<Line key={i} x1={from.x} y1={from.y} x2={to.x} y2={to.y} offset={(i + 1) * 1000} />,
 				);
 			}
 			setLines(lines);
-            setPopup(<Popup cb={() => setPopup(false)} />);
+            // setPopup(<Popup cb={() => setPopup(false)} />);
 		};
 		f();
 	}, [target]);
