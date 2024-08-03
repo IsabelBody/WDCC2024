@@ -5,6 +5,7 @@ import './App.css';
 function App() {
   const [nodeName, setNodeName] = useState('');
   const [galaxyName, setGalaxyName] = useState('');
+  const [galaxyDescription, setGalaxyDescription] = useState('');
   const [error, setError] = useState('');
   const [selectedMessage, setSelectedMessage] = useState('');
   const [path, setPath] = useState([]);
@@ -17,13 +18,15 @@ function App() {
     axios.get(`http://127.0.0.1:5000/galaxy/${nodeName}`)
       .then(response => {
         const name = response.data.name;
+        const description = response.data.description;
         setGalaxyName(name);
+        setGalaxyDescription(description);
         setError('');
 
         // Immediately calculate the shortest path to the selected galaxy
-        axios.post('http://localhost:5000/select-galaxy', { node: parseInt(nodeName) })
+        axios.post('http://127.0.0.1:5000/select-galaxy', { node: parseInt(nodeName) })
           .then(() => {
-            axios.get('http://localhost:5000/shortest-path')
+            axios.get('http://127.0.0.1:5000/shortest-path')
               .then(response => {
                 setPath(response.data.path);
                 setPathCost(response.data.total_cost);
@@ -40,6 +43,7 @@ function App() {
       })
       .catch(() => {
         setGalaxyName('');
+        setGalaxyDescription('');
         setError('Node not found');
         setPath([]);
         setPathCost(null);
@@ -61,6 +65,11 @@ function App() {
         {galaxyName && (
           <div>
             <p>{galaxyName}</p>
+          </div>
+        )}
+        {galaxyDescription && (
+          <div>
+            <p>{galaxyDescription}</p>
           </div>
         )}
         {path.length > 0 && (
