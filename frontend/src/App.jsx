@@ -1,35 +1,20 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import InfoPage from './Info'
+import MapPage from './Map'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [page, setPage] = useState("/")
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+  return (<Resolver url={page} setPage={setPage} />)
+}
+
+const Resolver = ({ url, setPage }) => {
+  if (url === "/") {
+    return <MapPage cb={setPage}/>
+  } else if (url.split("/")[1] === "info") {
+    return <InfoPage galaxy={url.split("/")[2]} cb={setPage} />
+  }
 }
 
 export default App
