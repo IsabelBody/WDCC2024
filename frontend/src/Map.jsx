@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Console from "./Console";
 import background from "./assets/Untitled.png";
 import axios from "axios";
+import LocationBox from "./Location";
 
 const locations = {
 	andromeda: { x: "620", y: "200" },
@@ -38,7 +39,8 @@ const Line = ({ x1, y1, x2, y2 }) => {
 };
 
 const MapPage = ({ cb }) => {
-	const [target, setTarget] = useState([]);
+	const [target, setTarget] = useState(null);
+    const [current, setCurent] = useState("wdcc");
 	const [lines, setLines] = useState([]);
 
 	const ClickHandler = ({ name, hoverText }) => {
@@ -92,6 +94,25 @@ const MapPage = ({ cb }) => {
 					<ClickHandler key={i} name={location[0]} hoverText={location[0]} />
 				))}
 			</div>
+            <div className="leftside">
+                <div className="sidebox">
+                    <h3>Current conditions:</h3>
+                    <p>Life Support Systems: Active</p>
+                    <p>Power Levels: High</p>
+                    <p>Hull Integrity: OK</p>
+                    <p>Engine Status: Cruising</p>
+                </div>
+                <LocationBox location={current}/>
+            </div>
+            {target && 
+            <div className="rightside">
+                <LocationBox location={target} target={true}/>
+                <div className="sidebox">
+                    <h3>Flight Path:</h3>
+                    <p>{"> Leo"}</p>
+                    <p>{"> Andromeda"}</p>
+                </div>
+            </div>}
 			{/* <ClickHandler name={"Leo"} hoverText="Leo Galaxy"/>
             <ClickHandler name={"Tukana Dwarf"} hoverText="Tukana Dwarf Galaxy"/>
             <ClickHandler name={"Cosmos Redshift7"} hoverText="Cosmos Redshift7 Galaxy"/>
