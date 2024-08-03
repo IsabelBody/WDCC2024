@@ -10,6 +10,9 @@ CORS(app)
 # Store selected galaxy
 selected_galaxy = None
 
+# Store the current source node (initialized to 0)
+current_source_node = 0
+
 # Endpoint to get galaxy name
 @app.route('/galaxy/<string:name>', methods=['GET'])
 def get_galaxy_name(name):
@@ -33,19 +36,28 @@ def select_galaxy():
     else:
         return jsonify({'error': 'Invalid galaxy name'}), 400
 
-# Endpoint to get the shortest path from source (0) to the selected galaxy
+# Endpoint to get the shortest path from the current source node to the selected galaxy
 @app.route('/shortest-path', methods=['GET'])
 def get_shortest_path():
-    global selected_galaxy
+    global selected_galaxy, current_source_node
     if selected_galaxy is None:
         return jsonify({'error': 'No galaxy selected'}), 400
 
-    source_node = 0  # Source is always node 0
-    total_cost, path = calculate_distance(graph, source_node, selected_galaxy)
+    total_cost, path = calculate_distance(graph, current_source_node, selected_galaxy)
     return jsonify({
         'path': path,
         'total_cost': total_cost
     })
+
+# Endpoint to travel to the selected galaxy (update the current source node)
+@app.route('/travel', methods=['POST'])
+def travel():
+    global selected_galaxy, current_source_node
+    if selected_galaxy is None:
+        return jsonify({'error': 'No galaxy selected'}), 400
+
+    current_source_node = selected_galaxy
+    return jsonify({'message': f'Traveled to galaxy {node_descriptions[current_source_node][0]}'})
 
 if __name__ == '__main__':
     app.run(debug=True)
