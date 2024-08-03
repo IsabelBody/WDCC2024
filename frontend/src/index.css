@@ -176,7 +176,7 @@ button:focus-visible {
   width: 90px;
   height: 90px;
   left: 830px;
-  bottom: 44%;
+  bottom: 370px;
   display: inline-flex; /* Aligns items inside the button */
   align-items: center; /* Centers content vertically */
   justify-content: center;
@@ -190,7 +190,7 @@ button:focus-visible {
   width: 90px;
   height: 90px;
   left: 620px;
-  bottom: 77%;
+  bottom: 640px;
   display: inline-flex; /* Aligns items inside the button */
   align-items: center; /* Centers content vertically */
   justify-content: center;
@@ -203,8 +203,8 @@ button:focus-visible {
   border-radius: 50%;
   width: 90px;
   height: 90px;
-  left: 370px;
-  bottom: 77%;
+  left: 380px;
+  bottom: 640px;
   display: inline-flex; /* Aligns items inside the button */
   align-items: center; /* Centers content vertically */
   justify-content: center;
@@ -218,11 +218,16 @@ button:focus-visible {
   width: 90px;
   height: 90px;
   left: 380px;
-  bottom: 40%;
+  bottom: 340px;
   display: inline-flex; /* Aligns items inside the button */
   align-items: center; /* Centers content vertically */
   justify-content: center;
   cursor: pointer;
   background-color: aquamarine;
   position: absolute;
+}
+
+.hoverText{
+  color: black;
+  
 }

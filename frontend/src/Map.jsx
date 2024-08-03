@@ -3,6 +3,16 @@ import Console from './Console';
 import background from './assets/Untitled.png';
 import axios from 'axios';
 
+
+
+const locations = {
+    andromeda : {x:"620px", y:"640px"},
+    wDCCxSESA : {x: "830px", y:"370px"},
+    draco : {x:"380px", y:"640px"},
+    phoenix : {x: "380px", y:"340px" },
+}
+
+
 const MapPage = ({ cb }) => {
     const [path, setPath] = useState([])
     
@@ -10,8 +20,11 @@ const MapPage = ({ cb }) => {
         const [isHover, setIsHover] = useState(false)
         return (
             <>
-                <button className={`galaxyButton ${name}`} onMouseLeave={() => setIsHover(false)} onMouseEnter={() => setIsHover(true)} onClick={() => cb(`/info/${name}`)}></button>
-                {isHover && (<div>{hoverText}</div>)}
+                <div className="buttonWrapper">
+                    <button className={`galaxyButton ${name}`} onMouseLeave={() => setIsHover(false)} onMouseEnter={() => setIsHover(true)} onClick={() => cb(`/info/${name}`)}></button>
+                    {isHover && (<div className={`hoverText`}>{hoverText}</div>)}
+                </div>
+                
             </>
         )
     }
