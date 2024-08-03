@@ -9,14 +9,14 @@ import Popup from "./Popop";
 import warning from "./assets/warning.svg";
 
 const locations = {
-    andromeda: { x: "620", y: "200" },
-    wdcc: { x: "830", y: "400" },
-    draco: { x: "200", y: "100" },
-    phoenix: { x: "250", y: "500" },
-    leo: { x: 50, y: 800 },
-    tucana_dwarf: { x: 600, y: 800 },
-    cosmic_redshift: { x: 1100, y: 700 },
-    aquarius_dwarf: { x: 1100, y: 280 },
+	andromeda: { x: "620", y: "200", warning: "Solar Flare in Progress" },
+	wdcc: { x: "830", y: "400" },
+	draco: { x: "200", y: "100" },
+	phoenix: { x: "250", y: "500" },
+	leo: { x: 50, y: 800 },
+	tucana_dwarf: { x: 600, y: 800 },
+	cosmic_redshift: { x: 1100, y: 700 },
+	aquarius_dwarf: { x: 1100, y: 280 },
 };
 
 const numberToGalaxy = {
@@ -79,9 +79,9 @@ const Warning = () => {
 };
 
 const MapPage = ({ cb }) => {
-    const [target, setTarget] = useState(null);
-    const [current, setCurrent] = useState("andromeda");
-    const [lines, setLines] = useState([]);
+	const [target, setTarget] = useState(null);
+	const [current, setCurrent] = useState("wdcc");
+	const [lines, setLines] = useState([]);
     const [popup, setPopup] = useState(false);
     const [unwanted, setUnwanted] = useState([]);
 
@@ -115,46 +115,41 @@ const MapPage = ({ cb }) => {
                     >
                         {name}
                     </div>
-                    {isHover && <div className={"hoverText"}>{hoverText}</div>}
-                    <Warning />
-                </div>
+                    {locations[name].warning && <Warning />}
+				</div>
             </>
         );
     };
 
-    useEffect(() => {
-        const f = async () => {
-            if (!target) return;
-            await axios.post("http://localhost:5000/select-galaxy", {
-                name: target,
-            });
-            const res = await axios.post("http://localhost:5000/shortest-path", {
-                unwanted: ["draco", "phoenix", "tucana_dwarf"],
-            });
-            if (res.data.total_cost > 1000) {
-                setPopup(<Popup cb={() => setPopup(false)} />);
-                return;
-            }
-            console.log(res.data.path.map((x) => numberToGalaxy[x]));
-            const lines = [];
-            for (let i = 0; i < res.data.path.length - 1; i++) {
-                const from = locations[numberToGalaxy[res.data.path[i]]];
-                const to = locations[numberToGalaxy[res.data.path[i + 1]]];
-                lines.push(
-                    <Line
-                        key={i}
-                        x1={from.x}
-                        y1={from.y}
-                        x2={to.x}
-                        y2={to.y}
-                        offset={(i + 1) * 1000}
-                    />
-                );
-            }
-            setLines(lines);
-        };
-        f();
-    }, [target]);
+	useEffect(() => {
+		const f = async () => {
+			if (!target) return;
+			await axios.post("http://localhost:5000/select-galaxy", {
+				name: target,
+			});
+			const res = await axios.post("http://localhost:5000/shortest-path", { unwanted: [] });
+			if (res.data.total_cost > 1000 ) {
+				setPopup(<Popup heading="Route Warnings" content="We can't find an alternative route" cb={() => setPopup(false)} />);
+				return;
+			}
+			console.log(res.data.path.map((x) => numberToGalaxy[x]));
+			const lines = [];
+			const warnings = [];
+			for (let i = 0; i < res.data.path.length - 1; i++) {
+				const from = locations[numberToGalaxy[res.data.path[i]]];
+				const to = locations[numberToGalaxy[res.data.path[i + 1]]];
+				if (to.warning) { warnings.push(to.warning); }
+				lines.push(
+					<Line key={i} x1={from.x} y1={from.y} x2={to.x} y2={to.y} offset={(i + 1) * 1000} />,
+				);
+			}
+			setLines(lines);
+			if (warnings.length) {
+				setPopup(<Popup heading="Route Warnings" content={warnings.join(", ")} cb={() => setPopup(false)} />);
+			}
+		};
+		f();
+	}, [target]);
 
     const travel = async () => {
         await axios.post("http://localhost:5000/travel");
