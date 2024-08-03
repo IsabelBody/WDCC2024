@@ -41,6 +41,14 @@ edges = [
 for u, v, cost in edges:
     graph.add_edge(u, v, cost)
 
-def calculate_distance(graph, source, destination):
-    path_info = find_path(graph, source, destination)
+def calculate_distance(graph, source, destination, unwanted):
+    print(unwanted)
+    def cost_func(u, v, edge, prev_edge):
+        length = edge
+        cost = length
+        if v in unwanted:
+            cost += 1000
+        return cost
+
+    path_info = find_path(graph, source, destination, cost_func=cost_func)
     return path_info.total_cost, path_info.nodes

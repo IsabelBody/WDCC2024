@@ -37,13 +37,19 @@ def select_galaxy():
         return jsonify({'error': 'Invalid galaxy name'}), 400
 
 # Endpoint to get the shortest path from the current source node to the selected galaxy
-@app.route('/shortest-path', methods=['GET'])
+@app.route('/shortest-path', methods=['POST'])
 def get_shortest_path():
     global selected_galaxy, current_source_node
     if selected_galaxy is None:
         return jsonify({'error': 'No galaxy selected'}), 400
+    
+    data = request.json
+    unwanted = data.get('unwanted', [])
+    def map_keys_to_values(keys, dictionary):
+        return [dictionary.get(key) for key in keys]
+    nodes = map_keys_to_values(unwanted, name_to_node)
 
-    total_cost, path = calculate_distance(graph, current_source_node, selected_galaxy)
+    total_cost, path = calculate_distance(graph, current_source_node, selected_galaxy, nodes)
     return jsonify({
         'path': path,
         'total_cost': total_cost

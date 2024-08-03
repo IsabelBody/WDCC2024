@@ -81,6 +81,7 @@ const MapPage = ({ cb }) => {
 	const [current, setCurrent] = useState("andromeda");
 	const [lines, setLines] = useState([]);
     const [popup, setPopup] = useState(false);
+	const [unwanted, setUnwanted] = useState([]);
 
 	const ClickHandler = ({ name, hoverText }) => {
 		const [isHover, setIsHover] = useState(false);
@@ -110,7 +111,11 @@ const MapPage = ({ cb }) => {
 			await axios.post("http://localhost:5000/select-galaxy", {
 				name: target,
 			});
-			const res = await axios.get("http://localhost:5000/shortest-path");
+			const res = await axios.post("http://localhost:5000/shortest-path", { unwanted: ["draco", "phoenix", "tucana_dwarf"] });
+			if (res.data.total_cost > 1000 ) {
+				setPopup(<Popup cb={() => setPopup(false)} />);
+				return;
+			}
 			console.log(res.data.path.map((x) => numberToGalaxy[x]));
 			const lines = [];
 			for (let i = 0; i < res.data.path.length - 1; i++) {
