@@ -7,14 +7,14 @@ graph = Graph()
 
 # Node descriptions
 node_descriptions = {
-    0: ["WDCCxSESA", "A galaxy cluster."],
-    1: ["Aquarius Dwarf", "A galaxy in the Aquarius constellation."],
-    2: ["Cosmic Redshift", "An effect observed in distant galaxies."],
-    3: ["Tucana Dwarf", "A galaxy in the Tucana constellation."],
-    4: ["Leo", "A constellation known for the lion shape."],
-    5: ["Phoenix", "A galaxy in the Phoenix constellation."],
-    6: ["Draco", "A galaxy in the Draco constellation."],
-    7: ["Andromeda", "The Andromeda Galaxy, our closest neighbor."]
+    0: ["wdcc", "A galaxy cluster."],
+    1: ["aquarius_dwarf", "A galaxy in the Aquarius constellation."],
+    2: ["cosmic_redshift", "An effect observed in distant galaxies."],
+    3: ["tucana_dwarf", "A galaxy in the Tucana constellation."],
+    4: ["leo", "A constellation known for the lion shape."],
+    5: ["phoenix", "A galaxy in the Phoenix constellation."],
+    6: ["draco", "A galaxy in the Draco constellation."],
+    7: ["andromeda", "The Andromeda Galaxy, our closest neighbor."]
 }
 
 # Create reverse lookup for node names
