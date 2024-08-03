@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Children } from "react";
 import Console from "./Console";
 import background from "./assets/space.png";
-import noise from "./assets/nnnoise.svg";
+import noise from "./assets/noise.png";
+import edge from "./assets/edge.png";
 import axios from "axios";
 import LocationBox from "./Location";
 
@@ -27,31 +28,37 @@ const numberToGalaxy = {
 	4: "leo",
 };
 
-const Line = ({ x1, y1, x2, y2, seed}) => {
-    const [visible, setVisible] = useState(true);
+const Glitch = ({ time, children }) => {
+	const [visible, setVisible] = useState(true);
 
-    useEffect(() => {
-        const random = visible ? Math.random() * 2500 : Math.random() * 200;
-        const interval = setTimeout(() => {
-            setVisible(!visible);
-        }, random);
-        return () => clearTimeout(interval);
-    }, [visible]);
+	useEffect(() => {
+		const random = visible ? Math.random() * time : Math.random() * 200;
+		const interval = setTimeout(() => {
+			setVisible(!visible);
+		}, random);
+		return () => clearTimeout(interval);
+	}, [visible, time]);
 
+	return visible && children;
+};
+
+const Line = ({ x1, y1, x2, y2 }) => {
 	return (
-		visible && <line
-			x1={x1}
-			y1={y1}
-			x2={x2}
-			y2={y2}
-			style={{ stroke: "rgb(255,0,0)", strokeWidth: 2 }}
-		/>
+		<Glitch time={2500}>
+			<line
+				x1={x1}
+				y1={y1}
+				x2={x2}
+				y2={y2}
+				style={{ stroke: "rgb(255,0,0)", strokeWidth: 2 }}
+			/>
+		</Glitch>
 	);
 };
 
 const MapPage = ({ cb }) => {
 	const [target, setTarget] = useState(null);
-    const [current, setCurrent] = useState("andromeda");
+	const [current, setCurrent] = useState("andromeda");
 	const [lines, setLines] = useState([]);
 
 	const ClickHandler = ({ name, hoverText }) => {
@@ -76,7 +83,7 @@ const MapPage = ({ cb }) => {
 
 	useEffect(() => {
 		const f = async () => {
-            if (!target) return;
+			if (!target) return;
 			await axios.post("http://localhost:5000/select-galaxy", {
 				name: target,
 			});
@@ -95,17 +102,17 @@ const MapPage = ({ cb }) => {
 		f();
 	}, [target]);
 
-    const travel = async () => {
-        await axios.post("http://localhost:5000/travel");
-        setCurrent(target);
-        setTarget(null);
-        setLines([]);
-    }
+	const travel = async () => {
+		await axios.post("http://localhost:5000/travel");
+		setCurrent(target);
+		setTarget(null);
+		setLines([]);
+	};
 
 	return (
 		<>
 			<img className="background" src={background} alt="background" />
-            {/* <img className="background" src={noise} alt="background" /> */}
+			{/* <img className="background" src={noise} alt="background" /> */}
 			<div className="canvas">
 				<svg width="100%" height="100%">
 					{lines}
@@ -114,34 +121,40 @@ const MapPage = ({ cb }) => {
 					<ClickHandler key={i} name={location[0]} hoverText={location[0]} />
 				))}
 			</div>
-            <div className="leftside">
-                <div className="sidebox">
-                    <h3>Current conditions:</h3>
-                    <p>Life Support Systems: Active</p>
-                    <p>Power Levels: High</p>
-                    <p>Hull Integrity: OK</p>
-                    <p>Engine Status: Cruising</p>
+            <Glitch time={10000}>
+                <div className="leftside">
+                    <div className="sidebox">
+                        <h3>Current conditions:</h3>
+                        <p>Life Support Systems: Active</p>
+                        <p>Power Levels: High</p>
+                        <p>Hull Integrity: OK</p>
+                        <p>Engine Status: Cruising</p>
+                    </div>
+                    <LocationBox location={current} />
                 </div>
-                <LocationBox location={current}/>
-            </div>
-            {target && 
-            <div className="rightside">
-                <LocationBox location={target} target={true}/>
-                <div className="sidebox">
-                    <h3>Flight Path:</h3>
-                    <p>{"> Leo"}</p>
-                    <p>{"> Andromeda"}</p>
-                </div>
-                <div className="sidebox">
-                    <p>{`Type "travel" to navigate`}</p>
-                </div>
-            </div>}
+            </Glitch>
+			{target && (
+                <Glitch time={10000}>
+                    <div className="rightside">
+                        <LocationBox location={target} target={true} />
+                        <div className="sidebox">
+                            <h3>Flight Path:</h3>
+                            <p>{"> Leo"}</p>
+                            <p>{"> Andromeda"}</p>
+                        </div>
+                        <div className="sidebox">
+                            <p>{`Type "travel" to navigate`}</p>
+                        </div>
+                    </div>
+                </Glitch>
+			)}
 			{/* <ClickHandler name={"Leo"} hoverText="Leo Galaxy"/>
             <ClickHandler name={"Tukana Dwarf"} hoverText="Tukana Dwarf Galaxy"/>
             <ClickHandler name={"Cosmos Redshift7"} hoverText="Cosmos Redshift7 Galaxy"/>
             <ClickHandler name={"Aquarius dwarf"} hoverText="Aquarius dwarf Galaxy"/> */}
 
-			<Console cb={cb} path={setTarget} travel={travel}/>
+			<Console cb={cb} path={setTarget} travel={travel} />
+            <img className="foreground" src={noise} alt="background" />
 		</>
 	);
 };
