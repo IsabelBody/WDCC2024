@@ -6,14 +6,14 @@ graph = Graph()
 
 # Initialized galaxy names
 node_descriptions = {
-    "g_1": "Galaxy 1",
-    "g_2": "Galaxy 2",
-    "g_3": "Galaxy 3",
-    "g_4": "Galaxy 4",
-    "g_5": "Galaxy 5",
-    "g_6": "Galaxy 6",
-    "g_7": "Galaxy 7",
-    "g_8": "Galaxy 8",
+    0: ["WDCCxSESA", "A galaxy cluster."],
+    1: ["Aquarius Dwarf", "A galaxy in the Aquarius constellation."],
+    2: ["Cosmic Redshift", "An effect observed in distant galaxies."],
+    3: ["Tucana Dwarf", "A galaxy in the Tucana constellation."],
+    4: ["Leo", "A constellation known for the lion shape."],
+    5: ["Phoenix", "A galaxy in the Phoenix constellation."],
+    6: ["Draco", "A galaxy in the Draco constellation."],
+    7: ["Andromeda", "The Andromeda Galaxy, our closest neighbor."]
 }
 
 # Add nodes to the graph

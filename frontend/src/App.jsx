@@ -14,7 +14,7 @@ function App() {
     if (!nodeName) return;
 
     // Fetch the galaxy name from the Flask backend
-    axios.get(`http://localhost:5000/galaxy/${nodeName}`)
+    axios.get(`http://127.0.0.1:5000/galaxy/${nodeName}`)
       .then(response => {
         setGalaxyName(response.data.name);
         setError('');
@@ -29,7 +29,7 @@ function App() {
     if (!galaxyName) return;
 
     // Send the selected galaxy to the Flask backend
-    axios.post('http://localhost:5000/select-galaxy', { node: nodeName })
+    axios.post('http://127.0.0.1:5000/select-galaxy', { node: nodeName })
       .then(response => {
         setSelectedMessage(response.data.message);
         setPath([]);
@@ -44,7 +44,7 @@ function App() {
     if (!nodeName) return;
 
     // Fetch the shortest path from the selected galaxy
-    axios.get(`http://localhost:5000/shortest-path/${nodeName}`)
+    axios.get(`http://127.0.0.1:5000/shortest-path/${nodeName}`)
       .then(response => {
         setPath(response.data.path);
         setPathCost(response.data.total_cost);

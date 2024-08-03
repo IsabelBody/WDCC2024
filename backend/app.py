@@ -13,9 +13,9 @@ selected_galaxy = None
 # Endpoint to get galaxy name
 @app.route('/galaxy/<node>', methods=['GET'])
 def get_galaxy_name(node):
-    name = node_descriptions.get(node)
-    if name:
-        return jsonify({'name': name})
+    data = node_descriptions.get(node)
+    if data:
+        return jsonify({'name': data[0], 'description': data[1]})
     else:
         return jsonify({'error': 'Node not found'}), 404
 
@@ -30,6 +30,7 @@ def select_galaxy():
         return jsonify({'message': f'{node} selected'})
     else:
         return jsonify({'error': 'Invalid node'}), 400
+    
 
 # Endpoint to get the shortest path to the selected galaxy
 @app.route('/shortest-path/<start_node>', methods=['GET'])
