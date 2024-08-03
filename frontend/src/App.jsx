@@ -24,7 +24,7 @@ function App() {
         setError('');
 
         // Immediately calculate the shortest path to the selected galaxy
-        axios.post('http://127.0.0.1:5000/select-galaxy', { node: parseInt(nodeName) })
+        axios.post('http://127.0.0.1:5000/select-galaxy', { name: nodeName })
           .then(() => {
             axios.get('http://127.0.0.1:5000/shortest-path')
               .then(response => {
@@ -44,7 +44,7 @@ function App() {
       .catch(() => {
         setGalaxyName('');
         setGalaxyDescription('');
-        setError('Node not found');
+        setError('Galaxy not found');
         setPath([]);
         setPathCost(null);
       });
@@ -55,10 +55,10 @@ function App() {
       <header className="App-header">
         <h1>Search Galaxy Node</h1>
         <input
-          type="number"
+          type="text"
           value={nodeName}
           onChange={(e) => setNodeName(e.target.value)}
-          placeholder="Enter node ID (e.g., 0)"
+          placeholder="Enter galaxy name (e.g., Andromeda)"
         />
         <button onClick={handleSearch}>Search</button>
         {error && <p style={{ color: 'red' }}>{error}</p>}

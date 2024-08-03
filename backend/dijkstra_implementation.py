@@ -17,6 +17,9 @@ node_descriptions = {
     7: ["Andromeda", "The Andromeda Galaxy, our closest neighbor."]
 }
 
+# Create reverse lookup for node names
+name_to_node = {desc[0]: node for node, desc in node_descriptions.items()}
+
 # Add nodes to the graph
 for i in range(8):
     graph.add_node(i)
