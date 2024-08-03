@@ -13,7 +13,7 @@ const locations = {
 	wdcc: { x: "830", y: "400" },
 	draco: { x: "200", y: "100" },
 	phoenix: { x: "250", y: "500" },
-	leo: { x: 50, y: 800 },
+	leo: { x: 100, y: 800 },
 	tucana_dwarf: { x: 600, y: 800 },
 	cosmic_redshift: { x: 1100, y: 700 },
 	aquarius_dwarf: { x: 1100, y: 280 },
@@ -127,7 +127,7 @@ const MapPage = ({ cb }) => {
 			await axios.post("http://localhost:5000/select-galaxy", {
 				name: target,
 			});
-			const res = await axios.post("http://localhost:5000/shortest-path", { unwanted: [] });
+			const res = await axios.post("http://localhost:5000/shortest-path", { unwanted: unwanted });
 			if (res.data.total_cost > 1000 ) {
 				setPopup(<Popup heading="Route Warnings" content="We can't find an alternative route" cb={() => setPopup(false)} />);
 				return;
@@ -145,11 +145,13 @@ const MapPage = ({ cb }) => {
 			}
 			setLines(lines);
 			if (warnings.length) {
-				setPopup(<Popup heading="Route Warnings" content={warnings.join(", ")} cb={() => setPopup(false)} />);
+				setPopup(<Popup heading="Route Warnings" content={warnings.join(", ")}/>);
+			} else {
+				setPopup(null);
 			}
 		};
 		f();
-	}, [target]);
+	}, [target, unwanted]);
 
     const travel = async () => {
         await axios.post("http://localhost:5000/travel");
@@ -157,6 +159,10 @@ const MapPage = ({ cb }) => {
         setTarget(null);
         setLines([]);
     };
+
+	const exclude = (e) => {
+		setUnwanted([...unwanted, e]);
+	}
 
     return (
         <>
@@ -201,7 +207,7 @@ const MapPage = ({ cb }) => {
                 </Glitch>
             )}
             {popup}
-            <Console cb={cb} path={setTarget} travel={travel} />
+            <Console cb={cb} path={setTarget} travel={travel} exclude={exclude}/>
             <img className="foreground" src={noise} alt="background" />
             <img
                 className="foreground"

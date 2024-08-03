@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const Console = ({ cb, path, travel }) => {
+const Console = ({ cb, path, travel, exclude }) => {
     const [input, setInput] = useState("")
 
     const command = (input) => {
@@ -20,6 +20,10 @@ const Console = ({ cb, path, travel }) => {
                 break
             case "travel":
                 travel()
+                break
+            case "exclude":
+                console.log(args[1])
+                exclude(args[1])
                 break
             default:
                 console.log("Unknown command")

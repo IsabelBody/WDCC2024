@@ -4,7 +4,6 @@ const Popup = ({heading, content, cb}) => {
             <div className="popup-inner">
                 <h2>{heading}</h2>
                 <p>{content}</p>
-                <button type="button" onClick={cb}>Close</button>
             </div>
         </div>
     );
