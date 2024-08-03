@@ -104,3 +104,125 @@ button:focus-visible {
   position: fixed;
   bottom: 50px;
 }
+
+.galaxyButton{
+  background-color: blue;
+  /* background: transparent; */
+}
+ 
+.WDCCxSESA{
+  border-radius: 50%;
+  width: 90px;
+  height: 90px;
+  left: 830px;
+  bottom: 44%;
+  display: inline-flex; /* Aligns items inside the button */
+  align-items: center; /* Centers content vertically */
+  justify-content: center;
+  cursor: pointer;
+  background-color: aquamarine;
+  position: absolute;
+}
+
+.Andromeda{
+  border-radius: 50%;
+  width: 90px;
+  height: 90px;
+  left: 620px;
+  bottom: 77%;
+  display: inline-flex; /* Aligns items inside the button */
+  align-items: center; /* Centers content vertically */
+  justify-content: center;
+  cursor: pointer;
+  background-color: aquamarine;
+  position: absolute;
+}
+
+.Draco{
+  border-radius: 50%;
+  width: 90px;
+  height: 90px;
+  left: 370px;
+  bottom: 77%;
+  display: inline-flex; /* Aligns items inside the button */
+  align-items: center; /* Centers content vertically */
+  justify-content: center;
+  cursor: pointer;
+  background-color: aquamarine;
+  position: absolute;
+}
+
+.Phoenix{
+  border-radius: 50%;
+  width: 90px;
+  height: 90px;
+  left: 380px;
+  bottom: 40%;
+  display: inline-flex; /* Aligns items inside the button */
+  align-items: center; /* Centers content vertically */
+  justify-content: center;
+  cursor: pointer;
+  background-color: aquamarine;
+  position: absolute;
+}
+
+.galaxyButton{
+  background-color: blue;
+  /* background: transparent; */
+}
+ 
+.WDCCxSESA{
+  border-radius: 50%;
+  width: 90px;
+  height: 90px;
+  left: 830px;
+  bottom: 44%;
+  display: inline-flex; /* Aligns items inside the button */
+  align-items: center; /* Centers content vertically */
+  justify-content: center;
+  cursor: pointer;
+  background-color: aquamarine;
+  position: absolute;
+}
+
+.Andromeda{
+  border-radius: 50%;
+  width: 90px;
+  height: 90px;
+  left: 620px;
+  bottom: 77%;
+  display: inline-flex; /* Aligns items inside the button */
+  align-items: center; /* Centers content vertically */
+  justify-content: center;
+  cursor: pointer;
+  background-color: aquamarine;
+  position: absolute;
+}
+
+.Draco{
+  border-radius: 50%;
+  width: 90px;
+  height: 90px;
+  left: 370px;
+  bottom: 77%;
+  display: inline-flex; /* Aligns items inside the button */
+  align-items: center; /* Centers content vertically */
+  justify-content: center;
+  cursor: pointer;
+  background-color: aquamarine;
+  position: absolute;
+}
+
+.Phoenix{
+  border-radius: 50%;
+  width: 90px;
+  height: 90px;
+  left: 380px;
+  bottom: 40%;
+  display: inline-flex; /* Aligns items inside the button */
+  align-items: center; /* Centers content vertically */
+  justify-content: center;
+  cursor: pointer;
+  background-color: aquamarine;
+  position: absolute;
+}
