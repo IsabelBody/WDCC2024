@@ -2,7 +2,7 @@
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from dijkstra_implementation import graph, node_descriptions, find_shortest_path
+from dijkstra_implementation import graph, calculate_distance, node_descriptions
 
 app = Flask(__name__)
 CORS(app)
@@ -11,7 +11,7 @@ CORS(app)
 selected_galaxy = None
 
 # Endpoint to get galaxy name
-@app.route('/galaxy/<node>', methods=['GET'])
+@app.route('/galaxy/<int:node>', methods=['GET'])
 def get_galaxy_name(node):
     data = node_descriptions.get(node)
     if data:
@@ -27,22 +27,23 @@ def select_galaxy():
     node = data.get('node')
     if node in node_descriptions:
         selected_galaxy = node
-        return jsonify({'message': f'{node} selected'})
+        return jsonify({'message': f'Galaxy {node} selected'})
     else:
         return jsonify({'error': 'Invalid node'}), 400
     
 
-# Endpoint to get the shortest path to the selected galaxy
-@app.route('/shortest-path/<start_node>', methods=['GET'])
-def get_shortest_path(start_node):
+# Endpoint to get the shortest path from source (0) to the selected galaxy
+@app.route('/shortest-path', methods=['GET'])
+def get_shortest_path():
     global selected_galaxy
     if selected_galaxy is None:
         return jsonify({'error': 'No galaxy selected'}), 400
 
-    path_info = find_shortest_path(start_node, selected_galaxy)
+    source_node = 0  # Source is always node 0
+    total_cost, path = calculate_distance(graph, source_node, selected_galaxy)
     return jsonify({
-        'path': path_info.nodes,
-        'total_cost': path_info.total_cost
+        'path': path,
+        'total_cost': total_cost
     })
 
 if __name__ == '__main__':

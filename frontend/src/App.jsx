@@ -16,44 +16,33 @@ function App() {
     // Fetch the galaxy name from the Flask backend
     axios.get(`http://127.0.0.1:5000/galaxy/${nodeName}`)
       .then(response => {
-        setGalaxyName(response.data.name);
+        const name = response.data.name;
+        setGalaxyName(name);
         setError('');
+
+        // Immediately calculate the shortest path to the selected galaxy
+        axios.post('http://localhost:5000/select-galaxy', { node: parseInt(nodeName) })
+          .then(() => {
+            axios.get('http://localhost:5000/shortest-path')
+              .then(response => {
+                setPath(response.data.path);
+                setPathCost(response.data.total_cost);
+              })
+              .catch(() => {
+                setPath([]);
+                setPathCost(null);
+                setError('Failed to calculate path');
+              });
+          })
+          .catch(() => {
+            setSelectedMessage('Failed to select galaxy');
+          });
       })
       .catch(() => {
         setGalaxyName('');
         setError('Node not found');
-      });
-  };
-
-  const handleSelect = () => {
-    if (!galaxyName) return;
-
-    // Send the selected galaxy to the Flask backend
-    axios.post('http://127.0.0.1:5000/select-galaxy', { node: nodeName })
-      .then(response => {
-        setSelectedMessage(response.data.message);
         setPath([]);
         setPathCost(null);
-      })
-      .catch(() => {
-        setSelectedMessage('Failed to select galaxy');
-      });
-  };
-
-  const handleCalculatePath = () => {
-    if (!nodeName) return;
-
-    // Fetch the shortest path from the selected galaxy
-    axios.get(`http://127.0.0.1:5000/shortest-path/${nodeName}`)
-      .then(response => {
-        setPath(response.data.path);
-        setPathCost(response.data.total_cost);
-        setError('');
-      })
-      .catch(() => {
-        setPath([]);
-        setPathCost(null);
-        setError('Failed to calculate path');
       });
   };
 
@@ -62,23 +51,17 @@ function App() {
       <header className="App-header">
         <h1>Search Galaxy Node</h1>
         <input
-          type="text"
+          type="number"
           value={nodeName}
           onChange={(e) => setNodeName(e.target.value)}
-          placeholder="Enter node ID (e.g., g_1)"
+          placeholder="Enter node ID (e.g., 0)"
         />
         <button onClick={handleSearch}>Search</button>
         {error && <p style={{ color: 'red' }}>{error}</p>}
         {galaxyName && (
           <div>
-            <h2>Galaxy Name</h2>
             <p>{galaxyName}</p>
-            <button onClick={handleSelect}>Select Galaxy</button>
           </div>
-        )}
-        {selectedMessage && <p>{selectedMessage}</p>}
-        {selectedMessage && (
-          <button onClick={handleCalculatePath}>Calculate Shortest Path</button>
         )}
         {path.length > 0 && (
           <div>
@@ -87,6 +70,7 @@ function App() {
             <p>Total Cost: {pathCost}</p>
           </div>
         )}
+        {selectedMessage && <p>{selectedMessage}</p>}
       </header>
     </div>
   );
