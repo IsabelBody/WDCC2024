@@ -81,6 +81,7 @@ const Warning = () => {
 
 const MapPage = ({ cb }) => {
 	const [target, setTarget] = useState(null);
+	const [galaxyPath, setGalaxyPath] = useState([]);
 	const [current, setCurrent] = useState("wdcc");
 	const [lines, setLines] = useState([]);
     const [popup, setPopup] = useState(false);
@@ -140,14 +141,17 @@ const MapPage = ({ cb }) => {
 			console.log(res.data.path.map((x) => numberToGalaxy[x]));
 			const lines = [];
 			const warnings = [];
+			const path = [];
 			for (let i = 0; i < res.data.path.length - 1; i++) {
 				const from = locations[numberToGalaxy[res.data.path[i]]];
 				const to = locations[numberToGalaxy[res.data.path[i + 1]]];
+				path.push(numberToGalaxy[res.data.path[i + 1]]);
 				if (to.warning) { warnings.push(to.warning); }
 				lines.push(
 					<Line key={i} x1={from.x} y1={from.y} x2={to.x} y2={to.y} offset={(i + 1) * 1000} />,
 				);
 			}
+			setGalaxyPath(path);
 			setLines(lines);
 			if (warnings.length) {
 				setPopup(<Popup heading="Route Warnings" content={warnings.join(", ")}/>);
@@ -162,6 +166,8 @@ const MapPage = ({ cb }) => {
         await axios.post("http://localhost:5000/travel");
         setCurrent(target);
         setTarget(null);
+		setUnwanted([]);
+		setPopup(null);
         setLines([]);
     };
 
@@ -203,8 +209,9 @@ const MapPage = ({ cb }) => {
                         <LocationBox location={target} target={true} />
                         <div className="sidebox">
                             <h3>Flight Path:</h3>
-                            <p>{"> Leo"}</p>
-                            <p>{"> Andromeda"}</p>
+							{galaxyPath.map((e) => {
+								return <p>{`> ${e}`}</p>
+							})}
                         </div>
                         <div className="sidebox">
                             <p>{`Type "travel" to navigate`}</p>
