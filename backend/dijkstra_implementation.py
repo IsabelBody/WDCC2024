@@ -7,18 +7,18 @@ graph = Graph()
 
 # Node descriptions
 node_descriptions = {
-    0: ["wdcc", "A galaxy cluster."],
-    1: ["aquarius_dwarf", "A galaxy in the Aquarius constellation."],
-    2: ["cosmic_redshift", "An effect observed in distant galaxies."],
-    3: ["tucana_dwarf", "A galaxy in the Tucana constellation."],
-    4: ["leo", "A constellation known for the lion shape."],
-    5: ["phoenix", "A galaxy in the Phoenix constellation."],
-    6: ["draco", "A galaxy in the Draco constellation."],
-    7: ["andromeda", "The Andromeda Galaxy, our closest neighbor."],
-    8: ["sesa", "A dark and mysterious galaxy, barely visible through dense clouds of interstellar dust, hiding many secrets within."],
-    9: ["hydra", "A tightly wound spiral galaxy, with a dense central bulge and tightly packed star clusters along its arms."],
-    10: ["lyra", "A fading galaxy with an ethereal beauty, where stars are slowly drifting apart and the glow of ancient light lingers."],
-    11: ["saggitarius", "A grand spiral galaxy with sweeping arms of dust and gas, hosting a supermassive black hole at its core."],
+    0: ["wdcc", "A galaxy cluster.", "water vegetation life uranium"],
+    1: ["aquarius_dwarf", "A galaxy in the Aquarius constellation.", "water vegetation life uranium"],
+    2: ["cosmic_redshift", "An effect observed in distant galaxies.", "water uranium"],
+    3: ["tucana_dwarf", "A galaxy in the Tucana constellation.", "water vegetation life uranium oil"],
+    4: ["leo", "A constellation known for the lion shape.", "uranium"],
+    5: ["phoenix", "A galaxy in the Phoenix constellation.", "oil"],
+    6: ["draco", "A galaxy in the Draco constellation.", "helium hydrogen uranium"],
+    7: ["andromeda", "The Andromeda Galaxy, our closest neighbor.", "water vegetation life uranium helium"],
+    8: ["sesa", "A dark and mysterious galaxy, barely visible through dense clouds of interstellar dust, hiding many secrets within.", "hydrogen"],
+    9: ["hydra", "A tightly wound spiral galaxy, with a dense central bulge and tightly packed star clusters along its arms.", "nothing"],
+    10: ["lyra", "A fading galaxy with an ethereal beauty, where stars are slowly drifting apart and the glow of ancient light lingers.", "oil hydrogen water helium"],
+    11: ["saggitarius", "A grand spiral galaxy with sweeping arms of dust and gas, hosting a supermassive black hole at its core.", "water vegetation life uranium helium oil"],
 }
 
 # Create reverse lookup for node names

@@ -19,7 +19,7 @@ def get_galaxy_name(name):
     node = name_to_node.get(name)
     if node is not None:
         data = node_descriptions.get(node)
-        return jsonify({'name': data[0], 'description': data[1]})
+        return jsonify({'name': data[0], 'description': data[1], 'resources': data[2].split(" ")})
     else:
         return jsonify({'error': 'Galaxy not found'}), 404
 
