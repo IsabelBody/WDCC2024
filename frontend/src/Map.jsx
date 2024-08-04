@@ -5,8 +5,12 @@ import noise from "./assets/noise.png";
 import banding from "./assets/banding.png";
 import axios from "axios";
 import LocationBox from "./Location";
-import Popup from "./Popop";
+import Popup from "./Popop"; 
 import warning from "./assets/warning.svg";
+import galaxy1 from "./assets/galaxy-1.gif";
+import galaxy2 from "./assets/galaxy-2.png";
+import galaxy3 from "./assets/galaxy-3.png";
+import galaxy4 from "./assets/galaxy-4.gif";
 import doStars from "./stars";
 
 const locations = {
@@ -18,6 +22,17 @@ const locations = {
 	tucana_dwarf: { x: 600, y: 800 },
 	cosmic_redshift: { x: 1100, y: 700 },
 	aquarius_dwarf: { x: 1100, y: 280 },
+};
+
+const galaxyImages = {
+    andromeda: galaxy4,
+    wdcc: galaxy2,
+    draco: galaxy3,
+    phoenix: galaxy1,
+    leo: galaxy2,
+    tucana_dwarf: galaxy3,
+    cosmic_redshift: galaxy4,
+    aquarius_dwarf: galaxy1,
 };
 
 const numberToGalaxy = {
@@ -81,6 +96,7 @@ const Warning = () => {
 
 const MapPage = ({ cb }) => {
 	const [target, setTarget] = useState(null);
+	const [galaxyPath, setGalaxyPath] = useState([]);
 	const [current, setCurrent] = useState("wdcc");
 	const [lines, setLines] = useState([]);
     const [popup, setPopup] = useState(false);
@@ -90,34 +106,38 @@ const MapPage = ({ cb }) => {
         const [isHover, setIsHover] = useState(false);
         return (
             <>
-                <div
+            <div
+                style={{
+                    position: "absolute",
+                    left: `${locations[name].x - 45}px`,
+                    top: `${locations[name].y - 45}px`,
+                }}
+            >
+                <button
+                    type="button"
+                    className={`galaxyButton ${name} ${
+                        current === name ? "current" : ""
+                    }`}
+                    onMouseLeave={() => setIsHover(false)}
+                    onMouseEnter={() => setIsHover(true)}
+                    onClick={() => cb(`/info/${name}`)}
                     style={{
-                        position: "absolute",
-                        left: `${locations[name].x - 45}px`,
-                        top: `${locations[name].y - 45}px`,
+                        backgroundImage: `url(${galaxyImages[name]})`,
+                        backgroundSize: "cover",
+                    }}
+                />
+                <div
+                    className="label"
+                    style={{
+                        textAlign: "center",
+                        marginTop: "5px",
+                        color: "white",
                     }}
                 >
-                    <button
-                        type="button"
-                        className={`galaxyButton ${name} ${
-                            current === name ? "current" : ""
-                        }`}
-                        onMouseLeave={() => setIsHover(false)}
-                        onMouseEnter={() => setIsHover(true)}
-                        onClick={() => cb(`/info/${name}`)}
-                    />
-                    <div
-                        className="label"
-                        style={{
-                            textAlign: "center",
-                            marginTop: "5px",
-                            color: "white",
-                        }}
-                    >
-                        {name}
-                    </div>
-                    {locations[name].warning && <Warning />}
-				</div>
+                    {name}
+                </div>
+                {locations[name].warning && <Warning />}
+            </div>
             </>
         );
     };
@@ -140,14 +160,17 @@ const MapPage = ({ cb }) => {
 			console.log(res.data.path.map((x) => numberToGalaxy[x]));
 			const lines = [];
 			const warnings = [];
+			const path = [];
 			for (let i = 0; i < res.data.path.length - 1; i++) {
 				const from = locations[numberToGalaxy[res.data.path[i]]];
 				const to = locations[numberToGalaxy[res.data.path[i + 1]]];
+				path.push(numberToGalaxy[res.data.path[i + 1]]);
 				if (to.warning) { warnings.push(to.warning); }
 				lines.push(
 					<Line key={i} x1={from.x} y1={from.y} x2={to.x} y2={to.y} offset={(i + 1) * 1000} />,
 				);
 			}
+			setGalaxyPath(path);
 			setLines(lines);
 			if (warnings.length) {
 				setPopup(<Popup heading="Route Warnings" content={warnings.join(", ")}/>);
@@ -162,6 +185,8 @@ const MapPage = ({ cb }) => {
         await axios.post("http://localhost:5000/travel");
         setCurrent(target);
         setTarget(null);
+		setUnwanted([]);
+		setPopup(null);
         setLines([]);
     };
 
@@ -203,8 +228,9 @@ const MapPage = ({ cb }) => {
                         <LocationBox location={target} target={true} />
                         <div className="sidebox">
                             <h3>Flight Path:</h3>
-                            <p>{"> Leo"}</p>
-                            <p>{"> Andromeda"}</p>
+							{galaxyPath.map((e) => {
+								return <p>{`> ${e}`}</p>
+							})}
                         </div>
                         <div className="sidebox">
                             <p>{`Type "travel" to navigate`}</p>
@@ -214,7 +240,7 @@ const MapPage = ({ cb }) => {
             )}
             {popup}
             <Console cb={cb} path={setTarget} travel={travel} exclude={exclude}/>
-            <img className="foreground" src={noise} alt="background" />
+            <img className="foreground" src={noise} alt="background" style={{opacity:0.05}}/>
             <img
                 className="foreground"
                 src={banding}

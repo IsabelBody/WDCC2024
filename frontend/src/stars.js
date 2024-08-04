@@ -3,6 +3,10 @@ const doStars = () => {
     const numParticles = 150;
     const maxTranslate = 100;
     const directionChangeInterval = 1000;
+
+    if (particlesContainer.childElementCount) {
+        return;
+    }
     
     
     for (let i = 0; i < numParticles; i++) {
