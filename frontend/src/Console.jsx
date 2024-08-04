@@ -29,6 +29,10 @@ const Console = ({ cb, path, travel, exclude, include }) => {
                 console.log(args[1])
                 include(args[1])
                 break
+            case "back":
+                console.log("Going back to map")
+                cb("/") // Navigates back to the map page
+                break
             default:
                 console.log("Unknown command")
         }
