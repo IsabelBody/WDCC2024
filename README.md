@@ -37,10 +37,10 @@ Terminal 2
 
 ## Commands
 
-search e.g. search oil [or 'search oil life' for oil and life]
-path leo [or any galaxy]
-exclude andromeda 
-travel [ensure you got your path first]
-info andromeda [or any galaxy]
-map [return to map screen]
-start [return to start screen]
+- search e.g. `search oil` [or 'search oil life' for oil and life]
+- `path leo` [or any galaxy]
+- `exclude andromeda` 
+- `travel` [ensure you got your path first]
+- `info andromeda` [or any galaxy]
+- `map` [return to map screen]
+- `start` [return to start screen]
