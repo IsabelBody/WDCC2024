@@ -58,7 +58,7 @@ button:focus-visible {
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
+    color: #ad4545;
     background-color: #ffffff;
   }
   a:hover {
@@ -299,4 +299,22 @@ div:has( > .galaxyButton) {
 @keyframes flicker {
   0%, 100% { opacity: 0.8; }
   50% { opacity: 0.3; }
+}
+
+.popup {
+  border: 2px solid red;
+  /* background-color: white;  */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.popup-inner {
+  color: red; /* Red font color */
+}
+
+.popup h2,
+.popup p {
+  margin: 0;
 }
