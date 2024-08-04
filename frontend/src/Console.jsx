@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const Console = ({ cb, path, travel, exclude, include }) => {
+const Console = ({ cb, path, travel, exclude, include, search }) => {
     const [input, setInput] = useState("")
 
     const command = (input) => {
@@ -32,6 +32,10 @@ const Console = ({ cb, path, travel, exclude, include }) => {
             case "start":
                 console.log("Going back to start")
                 cb("/") // Navigates back to the start page
+                break
+            case "search":
+                console.log("Searching for", args.slice(1))
+                search(args.slice(1))
                 break
             default:
                 console.log("Unknown command")

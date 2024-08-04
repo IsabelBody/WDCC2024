@@ -113,6 +113,7 @@ const MapPage = ({ cb }) => {
 	const [lines, setLines] = useState([]);
     const [popup, setPopup] = useState(false);
     const [unwanted, setUnwanted] = useState([]);
+	const [searched, setSearched] = useState([]);
 
     const ClickHandler = ({ name, hoverText }) => {
         const [isHover, setIsHover] = useState(false);
@@ -129,7 +130,7 @@ const MapPage = ({ cb }) => {
                     type="button"
                     className={`galaxyButton ${name} ${
                         current === name ? "current" : ""
-                    }`}
+                    } ${searched.includes(name) ? "selected" : ""}`}
                     onMouseLeave={() => setIsHover(false)}
                     onMouseEnter={() => setIsHover(true)}
                     onClick={() => cb(`/info/${name}`)}
@@ -161,10 +162,10 @@ const MapPage = ({ cb }) => {
 	useEffect(() => {
 		const f = async () => {
 			if (!target) return;
-			await axios.post("http://127.0.0.1:5000/select-galaxy", {
+			await axios.post("http://127.0.0.1/select-galaxy", {
 				name: target,
 			});
-			const res = await axios.post("http://127.0.0.1:5000/shortest-path", { unwanted: unwanted });
+			const res = await axios.post("http://127.0.0.1/shortest-path", { unwanted: unwanted });
 			if (res.data.total_cost > 1000 ) {
 				setPopup(<Popup heading="Route Warnings" content="We can't find an alternative route" cb={() => setPopup(false)} />);
 				return;
@@ -201,6 +202,12 @@ const MapPage = ({ cb }) => {
 		setPopup(null);
         setLines([]);
     };
+
+	const search = async (args) => {
+		const res = await axios.post("http://127.0.0.1:5000/search", { resources: args});
+		console.log(res.data.nodes);
+		setSearched(res.data.nodes.map(x => numberToGalaxy[x]));
+	}
 
 	const exclude = (e) => {
 		setUnwanted([...unwanted, e]);
@@ -252,7 +259,7 @@ const MapPage = ({ cb }) => {
                 </Glitch>
             )}
             {popup}
-            <Console cb={cb} path={setTarget} travel={travel} exclude={exclude} include={include}/>
+            <Console cb={cb} path={setTarget} travel={travel} exclude={exclude} include={include} search={search}/>
             <img
                 className="foreground"
                 src={banding}

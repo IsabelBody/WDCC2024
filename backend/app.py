@@ -65,5 +65,26 @@ def travel():
     current_source_node = selected_galaxy
     return jsonify({'message': f'Traveled to galaxy {node_descriptions[current_source_node][0]}'})
 
+@app.route('/search', methods=['POST'])
+def search():
+    data = request.json
+    resources = data.get('resources', [])
+
+    def search_dict_for_subarray(dictionary, subarray):
+        keys = []
+        subarray_set = set(subarray)
+    
+        for key, value in dictionary.items():
+            if isinstance(value, list):
+                reso = value[2].split(" ")
+                value_set = set(reso)
+                if subarray_set.issubset(value_set):
+                    keys.append(key)
+    
+        return keys
+
+    nodes = search_dict_for_subarray(node_descriptions, resources)
+    return jsonify({'nodes': nodes })
+
 if __name__ == '__main__':
     app.run(debug=True)

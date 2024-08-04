@@ -200,6 +200,15 @@ div:has( > .galaxyButton) {
   box-sizing: border-box;
 }
 
+.galaxyButton.selected::after {
+  content: "";
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  border: 2px solid rgb(46, 66, 157);
+  box-sizing: border-box;
+}
+
 .hoverText{
   color: black;
   
