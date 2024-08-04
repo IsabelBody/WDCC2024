@@ -14,14 +14,18 @@ node_descriptions = {
     4: ["leo", "A constellation known for the lion shape."],
     5: ["phoenix", "A galaxy in the Phoenix constellation."],
     6: ["draco", "A galaxy in the Draco constellation."],
-    7: ["andromeda", "The Andromeda Galaxy, our closest neighbor."]
+    7: ["andromeda", "The Andromeda Galaxy, our closest neighbor."],
+    8: ["sesa", "A dark and mysterious galaxy, barely visible through dense clouds of interstellar dust, hiding many secrets within."],
+    9: ["hydra", "A tightly wound spiral galaxy, with a dense central bulge and tightly packed star clusters along its arms."],
+    10: ["lyra", "A fading galaxy with an ethereal beauty, where stars are slowly drifting apart and the glow of ancient light lingers."],
+    11: ["saggitarius", "A grand spiral galaxy with sweeping arms of dust and gas, hosting a supermassive black hole at its core."],
 }
 
 # Create reverse lookup for node names
 name_to_node = {desc[0]: node for node, desc in node_descriptions.items()}
 
 # Add nodes to the graph
-for i in range(8):
+for i in range(12):
     graph.add_node(i)
 
 # Add edges to the graph
@@ -35,7 +39,12 @@ edges = [
     (3, 5, 4), (5, 3, 4),
     (4, 5, 5), (5, 4, 5),
     (5, 6, 5), (6, 5, 5),
-    (6, 7, 1), (7, 6, 1)
+    (6, 7, 1), (7, 6, 1),
+    (1, 8, 4), (8, 1, 4),
+    (8, 9, 6), (9, 8, 6),
+    (10, 2, 3), (2, 10, 3),
+    (11, 9, 4), (9, 11, 4),
+    (11, 10, 3), (10, 11, 3),
 ]
 
 for u, v, cost in edges:
