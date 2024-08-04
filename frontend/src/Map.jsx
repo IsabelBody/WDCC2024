@@ -162,10 +162,10 @@ const MapPage = ({ cb }) => {
 	useEffect(() => {
 		const f = async () => {
 			if (!target) return;
-			await axios.post("http://127.0.0.1:5000/select-galaxy", {
+			await axios.post("http://localhost:5000/select-galaxy", {
 				name: target,
 			});
-			const res = await axios.post("http://127.0.0.1:5000/shortest-path", { unwanted: unwanted });
+			const res = await axios.post("http://localhost:5000/shortest-path", { unwanted: unwanted });
 			if (res.data.total_cost > 1000 ) {
 				setPopup(<Popup heading="Route Warnings" content="We can't find an alternative route" cb={() => setPopup(false)} />);
 				return;
@@ -195,7 +195,7 @@ const MapPage = ({ cb }) => {
 	}, [target, unwanted]);
 
     const travel = async () => {
-        await axios.post("http://127.0.0.1:5000/travel");
+        await axios.post("http://localhost:5000/travel");
         setCurrent(target);
         setTarget(null);
 		setUnwanted([]);
@@ -204,7 +204,7 @@ const MapPage = ({ cb }) => {
     };
 
 	const search = async (args) => {
-		const res = await axios.post("http://127.0.0.1:5000/search", { resources: args});
+		const res = await axios.post("http://localhost:5000/search", { resources: args});
 		console.log(res.data.nodes);
 		setSearched(res.data.nodes.map(x => numberToGalaxy[x]));
 	}

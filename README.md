@@ -32,3 +32,13 @@ Terminal 2
 `cd backend`
 `python app.py` 
 
+## Commands
+
+
+search e.g. search oil [or 'search oil life' for oil and life]
+path leo [or any galaxy]
+exclude andromeda 
+travel [ensure you got your path first]
+info andromeda [or any galaxy]
+map [return to map screen]
+start [return to start screen]
