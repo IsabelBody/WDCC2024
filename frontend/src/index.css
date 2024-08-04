@@ -151,7 +151,8 @@ div:has( > .galaxyButton) {
 .canvas {
   width: 1920px;
   height: 1080px;
-  position:relative
+  position:relative;
+  transform: scale(0.75);
 }
 
 .leftside {
@@ -230,7 +231,7 @@ div:has( > .galaxyButton) {
   background-color: white;
   position: absolute;
   opacity: 0.8;
-  animation: flicker 5s infinite ease-in-out;
+  animation: flicker 10s infinite ease-in-out;
 }
 
 @keyframes flicker {
