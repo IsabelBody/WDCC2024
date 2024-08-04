@@ -7,6 +7,7 @@ import axios from "axios";
 import LocationBox from "./Location";
 import Popup from "./Popop";
 import warning from "./assets/warning.svg";
+import doStars from "./stars";
 
 const locations = {
 	andromeda: { x: "620", y: "200", warning: "Solar Flare in Progress" },
@@ -122,6 +123,10 @@ const MapPage = ({ cb }) => {
     };
 
 	useEffect(() => {
+		doStars();
+	})
+
+	useEffect(() => {
 		const f = async () => {
 			if (!target) return;
 			await axios.post("http://localhost:5000/select-galaxy", {
@@ -166,7 +171,8 @@ const MapPage = ({ cb }) => {
 
     return (
         <>
-            <img className="background" src={background} alt="background" />
+            {/* <img className="background" src={background} alt="background" /> */}
+			<div className="background particles"/>
             <div className="canvas">
                 <svg width="100%" height="100%">
                     {lines}
