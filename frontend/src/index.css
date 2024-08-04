@@ -58,7 +58,7 @@ button:focus-visible {
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #ad4545;
+    color: #c11a1a;
     background-color: #ffffff;
   }
   a:hover {
@@ -302,7 +302,7 @@ div:has( > .galaxyButton) {
 }
 
 .popup {
-  border: 2px solid red;
+  border: 2px solid #c11a1a;
   /* background-color: white;  */
   padding: 20px;
   border-radius: 8px;
@@ -311,7 +311,7 @@ div:has( > .galaxyButton) {
 }
 
 .popup-inner {
-  color: red; /* Red font color */
+  color: #c11a1a;
 }
 
 .popup h2,
