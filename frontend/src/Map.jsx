@@ -227,10 +227,10 @@ const MapPage = ({ cb }) => {
                 <div className="leftside">
                     <div className="sidebox">
                         <h3>Current conditions:</h3>
-                        <p>Life Support Systems: Active</p>
-                        <p>Power Levels: High</p>
-                        <p>Hull Integrity: OK</p>
-                        <p>Engine Status: Cruising</p>
+                        <p><b>Life Support Systems:</b> Active</p>
+                        <p><b>Power Levels:</b> High</p>
+                        <p><b>Hull Integrity:</b> OK</p>
+                        <p><b>Engine Status:</b> Cruising</p>
                     </div>
                     <LocationBox location={current} />
                 </div>
