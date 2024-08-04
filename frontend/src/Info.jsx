@@ -10,7 +10,9 @@ const InfoPage = ({ galaxy, cb }) => {
     useEffect(() => {
         const fetchGalaxyInfo = async () => {
             try {
-                const res = await axios.get(`http://localhost:5000/galaxy/${galaxy}`);
+                const res = await axios.get(`http://127.0.0.1:5000/galaxy/${galaxy}`);
+
+                
                 setDesc(res.data.description || "Description not available.");
             } catch (error) {
                 console.error("Error fetching galaxy data:", error);
