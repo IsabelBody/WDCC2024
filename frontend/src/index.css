@@ -176,8 +176,8 @@ input:focus, textarea:focus, select:focus, button:focus{
 .galaxyButton{
   background-color: blue;
   border-radius: 50%;
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   display: inline-flex; /* Aligns items inside the button */
   align-items: center; /* Centers content vertically */
   justify-content: center;
@@ -242,6 +242,8 @@ div:has( > .galaxyButton) {
   border-radius: 10px;
   background-color: rgb(15, 15, 15);
   color: white;
+  text-align: left;
+  padding: 25px;
 }
 
 .popup {

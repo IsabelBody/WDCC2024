@@ -161,10 +161,10 @@ const MapPage = ({ cb }) => {
 	useEffect(() => {
 		const f = async () => {
 			if (!target) return;
-			await axios.post("http://localhost:5000/select-galaxy", {
+			await axios.post("http://127.0.0.1:5000/select-galaxy", {
 				name: target,
 			});
-			const res = await axios.post("http://localhost:5000/shortest-path", { unwanted: unwanted });
+			const res = await axios.post("http://127.0.0.1:5000/shortest-path", { unwanted: unwanted });
 			if (res.data.total_cost > 1000 ) {
 				setPopup(<Popup heading="Route Warnings" content="We can't find an alternative route" cb={() => setPopup(false)} />);
 				return;
@@ -194,7 +194,7 @@ const MapPage = ({ cb }) => {
 	}, [target, unwanted]);
 
     const travel = async () => {
-        await axios.post("http://localhost:5000/travel");
+        await axios.post("http://127.0.0.1:5000/travel");
         setCurrent(target);
         setTarget(null);
 		setUnwanted([]);
@@ -227,10 +227,10 @@ const MapPage = ({ cb }) => {
                 <div className="leftside">
                     <div className="sidebox">
                         <h3>Current conditions:</h3>
-                        <p>Life Support Systems: Active</p>
-                        <p>Power Levels: High</p>
-                        <p>Hull Integrity: OK</p>
-                        <p>Engine Status: Cruising</p>
+                        <p><b>Life Support Systems:</b> Active</p>
+                        <p><b>Power Levels:</b> High</p>
+                        <p><b>Hull Integrity:</b> OK</p>
+                        <p><b>Engine Status:</b> Cruising</p>
                     </div>
                     <LocationBox location={current} />
                 </div>
