@@ -1,11 +1,32 @@
-// Info.jsx
 import axios from 'axios';
-import andromeda from './assets/andromeda.png';
-import Console from './Console';
 import { useEffect, useState } from 'react';
+
+// Import all background images
+import background1 from './assets/background1.png';
+import background2 from './assets/background2.png';
+import background3 from './assets/background3.png';
+import background4 from './assets/background4.png';
+import background5 from './assets/background5.png';
+import background6 from './assets/background6.png';
+import background7 from './assets/background7.png';
+import background8 from './assets/background8.png';
+import Console from './Console';
+
+// Store all backgrounds in an array
+const backgrounds = [
+    background1,
+    background2,
+    background3,
+    background4,
+    background5,
+    background6,
+    background7,
+    background8
+];
 
 const InfoPage = ({ galaxy, cb }) => {
     const [desc, setDesc] = useState("");
+    const [background, setBackground] = useState(background1); // Default background
 
     useEffect(() => {
         const fetchGalaxyInfo = async () => {
@@ -20,9 +41,15 @@ const InfoPage = ({ galaxy, cb }) => {
         fetchGalaxyInfo();
     }, [galaxy]);
 
+    useEffect(() => {
+        // Set the background based on a random selection
+        const index = Math.floor(Math.random() * backgrounds.length);
+        setBackground(backgrounds[index]);
+    }, [galaxy]);
+
     return (
         <>
-            <img className="background" src={andromeda} alt={`${galaxy} image`} />
+            <div className="background" style={{ backgroundImage: `url(${background})` }} />
             <div className="panel">
                 <h1>{galaxy}</h1>
                 <p>{desc}</p>
@@ -33,12 +60,15 @@ const InfoPage = ({ galaxy, cb }) => {
             <style jsx>{`
                 .background {
                     width: 100%;
-                    height: auto;
+                    height: 100vh; /* Make the background cover the full viewport height */
                     position: absolute;
                     top: 0;
                     left: 0;
                     z-index: -1;
                     opacity: 0.5; /* Slightly transparent */
+                    background-size: cover; /* Ensure the image covers the entire area */
+                    background-position: center; /* Center the image */
+                    background-repeat: no-repeat; /* Prevent the image from repeating */
                 }
 
                 .panel {
