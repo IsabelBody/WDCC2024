@@ -30,6 +30,7 @@ function App() {
       }}
       onClick={navigateToMap}
     >
+      <h1>Warp Drive Control Centre</h1>
     </div>
   );
 
