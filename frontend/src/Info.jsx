@@ -1,32 +1,74 @@
+// Info.jsx
 import axios from 'axios'
 import andromeda from './assets/andromeda.png'
 import Console from './Console'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const InfoPage = ({ galaxy, cb }) => {
-
-    const desc = "Andromeda is a spiral galaxy approximately 2.537 million light-years from Earth, and the nearest major galaxy to the Milky Way. Its name is derived from the area of the sky in which it appears, the constellation of Andromeda."
+    const [desc, setDesc] = useState("");
 
     useEffect(() => {
-        const f = async () => {
-            const res = await axios.get(`http://localhost:5000/galaxy/5`);
-            console.log(res.data)
-        }
-        f();
-    }, [])
+        const fetchGalaxyInfo = async () => {
+            try {
+                const res = await axios.get(`http://localhost:5000/galaxy/${galaxy}`);
+                setDesc(res.data.description || "Description not available.");
+            } catch (error) {
+                console.error("Error fetching galaxy data:", error);
+                setDesc("Error fetching description.");
+            }
+        };
+        fetchGalaxyInfo();
+    }, [galaxy]);
 
     return (
-    <>
-        <img className="background" src={andromeda}/>
-        <div className="panel">
-            <h1>{galaxy}</h1>
-            <p>{desc}</p>
-        </div>
-        <button onClick={() => cb("/")}>Back</button>
-        <Console cb={cb}/>
-    </>
+        <>
+            <img className="background" src={andromeda} alt={`${galaxy} image`} />
+            <div className="panel">
+                <h1>{galaxy}</h1>
+                <p>{desc}</p>
+            </div>
+            <button onClick={() => cb("/")}>Back</button>
+            <Console cb={cb} />
+            
+            {/* Inline CSS for legibility */}
+            <style jsx>{`
+                .background {
+                    width: 100%;
+                    height: auto;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    z-index: -1;
+                    opacity: 0.5; /* Slightly transparent */
+                }
+
+                .panel {
+                    position: relative;
+                    padding: 20px;
+                    background: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+                    border-radius: 10px;
+                    max-width: 800px;
+                    margin: 50px auto;
+                    text-align: center;
+                    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+                }
+
+                h1 {
+                    font-size: 2.5rem;
+                    color: #333; /* Dark gray color for better contrast */
+                    margin-bottom: 20px;
+                }
+
+                p {
+                    font-size: 1.2rem;
+                    line-height: 1.6;
+                    color: #555; /* Medium gray for better readability */
+                }
+
+
+            `}</style>
+        </>
     )
-    
 }
 
-export default InfoPage
+export default InfoPage;
