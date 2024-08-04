@@ -22,6 +22,10 @@ const locations = {
 	tucana_dwarf: { x: 600, y: 800 },
 	cosmic_redshift: { x: 1100, y: 700 },
 	aquarius_dwarf: { x: 1100, y: 280 },
+	sesa: { x: 1320, y: 120 },
+	hydra: { x: 1500, y: 300 },
+	lyra: { x: 1410, y: 900 },
+	saggitarius: { x: 1800, y: 670 },
 };
 
 const galaxyImages = {
@@ -33,6 +37,10 @@ const galaxyImages = {
     tucana_dwarf: galaxy3,
     cosmic_redshift: galaxy4,
     aquarius_dwarf: galaxy1,
+	sesa: galaxy2,
+	hydra: galaxy3,
+	lyra: galaxy4,
+	saggitarius: galaxy1,
 };
 
 const numberToGalaxy = {
@@ -44,6 +52,10 @@ const numberToGalaxy = {
     2: "cosmic_redshift",
     3: "tucana_dwarf",
     4: "leo",
+	8: "sesa",
+	9: "hydra",
+	10: "lyra",
+	11: "saggitarius"
 };
 
 const Glitch = ({ time, children }) => {
@@ -193,6 +205,7 @@ const MapPage = ({ cb }) => {
 	const exclude = (e) => {
 		setUnwanted([...unwanted, e]);
 	}
+	const include = (e) => setUnwanted(unwanted.filter((x) => x !== e));
 
     return (
         <>
@@ -239,7 +252,7 @@ const MapPage = ({ cb }) => {
                 </Glitch>
             )}
             {popup}
-            <Console cb={cb} path={setTarget} travel={travel} exclude={exclude}/>
+            <Console cb={cb} path={setTarget} travel={travel} exclude={exclude} include={include}/>
             <img className="foreground" src={noise} alt="background" style={{opacity:0.05}}/>
             <img
                 className="foreground"
