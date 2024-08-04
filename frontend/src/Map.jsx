@@ -214,7 +214,7 @@ const MapPage = ({ cb }) => {
             )}
             {popup}
             <Console cb={cb} path={setTarget} travel={travel} exclude={exclude}/>
-            <img className="foreground" src={noise} alt="background" />
+            <img className="foreground" src={noise} alt="background" style={{opacity:0.05}}/>
             <img
                 className="foreground"
                 src={banding}

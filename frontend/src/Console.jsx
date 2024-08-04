@@ -32,7 +32,10 @@ const Console = ({ cb, path, travel, exclude }) => {
 
     return (
         <div className="console">
-            <input value={input} onChange={(e) => setInput(e.target.value)} />
+            <div className='inputWrapper'>
+                <span>{">"}</span>
+                <input value={input} onChange={(e) => setInput(e.target.value)}/>
+            </div>
             <button type="button" onClick={() => command(input)}>Enter</button>
         </div>
     )
