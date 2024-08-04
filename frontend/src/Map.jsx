@@ -5,8 +5,12 @@ import noise from "./assets/noise.png";
 import banding from "./assets/banding.png";
 import axios from "axios";
 import LocationBox from "./Location";
-import Popup from "./Popop";
+import Popup from "./Popop"; 
 import warning from "./assets/warning.svg";
+import galaxy1 from "./assets/galaxy-1.gif";
+import galaxy2 from "./assets/galaxy-2.png";
+import galaxy3 from "./assets/galaxy-3.png";
+import galaxy4 from "./assets/galaxy-4.gif";
 import doStars from "./stars";
 
 const locations = {
@@ -18,6 +22,17 @@ const locations = {
 	tucana_dwarf: { x: 600, y: 800 },
 	cosmic_redshift: { x: 1100, y: 700 },
 	aquarius_dwarf: { x: 1100, y: 280 },
+};
+
+const galaxyImages = {
+    andromeda: galaxy4,
+    wdcc: galaxy2,
+    draco: galaxy3,
+    phoenix: galaxy1,
+    leo: galaxy2,
+    tucana_dwarf: galaxy3,
+    cosmic_redshift: galaxy4,
+    aquarius_dwarf: galaxy1,
 };
 
 const numberToGalaxy = {
@@ -90,34 +105,38 @@ const MapPage = ({ cb }) => {
         const [isHover, setIsHover] = useState(false);
         return (
             <>
-                <div
+            <div
+                style={{
+                    position: "absolute",
+                    left: `${locations[name].x - 45}px`,
+                    top: `${locations[name].y - 45}px`,
+                }}
+            >
+                <button
+                    type="button"
+                    className={`galaxyButton ${name} ${
+                        current === name ? "current" : ""
+                    }`}
+                    onMouseLeave={() => setIsHover(false)}
+                    onMouseEnter={() => setIsHover(true)}
+                    onClick={() => cb(`/info/${name}`)}
                     style={{
-                        position: "absolute",
-                        left: `${locations[name].x - 45}px`,
-                        top: `${locations[name].y - 45}px`,
+                        backgroundImage: `url(${galaxyImages[name]})`,
+                        backgroundSize: "cover",
+                    }}
+                />
+                <div
+                    className="label"
+                    style={{
+                        textAlign: "center",
+                        marginTop: "5px",
+                        color: "white",
                     }}
                 >
-                    <button
-                        type="button"
-                        className={`galaxyButton ${name} ${
-                            current === name ? "current" : ""
-                        }`}
-                        onMouseLeave={() => setIsHover(false)}
-                        onMouseEnter={() => setIsHover(true)}
-                        onClick={() => cb(`/info/${name}`)}
-                    />
-                    <div
-                        className="label"
-                        style={{
-                            textAlign: "center",
-                            marginTop: "5px",
-                            color: "white",
-                        }}
-                    >
-                        {name}
-                    </div>
-                    {locations[name].warning && <Warning />}
-				</div>
+                    {name}
+                </div>
+                {locations[name].warning && <Warning />}
+            </div>
             </>
         );
     };

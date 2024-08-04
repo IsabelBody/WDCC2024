@@ -171,13 +171,15 @@ input:focus, textarea:focus, select:focus, button:focus{
 .galaxyButton{
   background-color: blue;
   border-radius: 50%;
-  width: 90px;
-  height: 90px;
+  width: 100px;
+  height: 100px;
   display: inline-flex; /* Aligns items inside the button */
   align-items: center; /* Centers content vertically */
   justify-content: center;
   cursor: pointer;
-  background-color: aquamarine;
+  background-color: transparent;
+  background-size: cover; /* Scale the background image to cover the button */
+  background-position: center; /* Center the background image */
 }
 
 div:has( > .galaxyButton) {
