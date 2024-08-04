@@ -16,6 +16,9 @@ Members: Hartej, Isabel, Laiba, Kelly, Arisha, Ronald
 
 
 ## How to run 
+
+If you have a windows machine please use the 'localhost' branch. If you have a mac, use main. 
+
 Requirements: 
 - Python 
 - **pip install dijkstar** in terminal to run the dijkstra_implementation.py file
@@ -32,3 +35,12 @@ Terminal 2
 `cd backend`
 `python app.py` 
 
+## Commands
+
+search e.g. search oil [or 'search oil life' for oil and life]
+path leo [or any galaxy]
+exclude andromeda 
+travel [ensure you got your path first]
+info andromeda [or any galaxy]
+map [return to map screen]
+start [return to start screen]
