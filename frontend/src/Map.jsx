@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Console from "./Console";
-import background from "./assets/space.png";
+import pixels from "./assets/pixels.png";
 import noise from "./assets/noise.png";
 import banding from "./assets/banding.png";
 import axios from "axios";
@@ -253,13 +253,14 @@ const MapPage = ({ cb }) => {
             )}
             {popup}
             <Console cb={cb} path={setTarget} travel={travel} exclude={exclude} include={include}/>
-            <img className="foreground" src={noise} alt="background" style={{opacity:0.05}}/>
             <img
                 className="foreground"
                 src={banding}
                 alt="background"
                 style={{ opacity: 0.6 }}
             />
+			<img className="foreground" src={pixels} alt="background" style={{opacity: 0.05, filter: "contrast(150%) grayscale(100%)"}}/>
+			<img className="foreground" src={noise} alt="background"/>
         </>
     );
 };

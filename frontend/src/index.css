@@ -115,7 +115,7 @@ button:focus-visible {
 
 .console {
   position: fixed;
-  bottom: 50px;
+  bottom: 20px;
   width: 97%;
   left: 10px;
   border-radius: 8px;
@@ -134,20 +134,26 @@ button:focus-visible {
   padding: 10px;
   border-radius: 8px;  
   text-align: left;
-  background-color: #0000;
+  background-color: rgb(15,15,15);
   color: white;
   height: 30px;
- 
-
+  display: flex;
+  gap: 20px;
 }
 
 .inputWrapper > input{
   width: 98%;
   flex: 1;
-  background-color: #0000;
+  background-color: rgb(15,15,15);
   border: none;
   color: white;
   font-size: 18px;
+  font-family: 'Orbitron', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+.inputWrapper > span {
+  font-size: 25px;
+  line-height: 25px;
 }
 
 input:focus, textarea:focus, select:focus, button:focus{
@@ -160,11 +166,10 @@ input:focus, textarea:focus, select:focus, button:focus{
   padding: 10px 20px;
   border: 2px solid grey;
   border-radius: 8px;
-  background-color: #0000;
+  background-color: rgb(15,15,15);
   color: white;
   cursor: pointer;
   font-size: 1em;
-  transition: background-color 0.25s;
   height: 53px;
 }
 
@@ -205,6 +210,8 @@ div:has( > .galaxyButton) {
   height: 1080px;
   position:relative;
   transform: scale(0.75);
+  padding-left: 400px;
+  padding-bottom: 400px;
 }
 
 .leftside {
