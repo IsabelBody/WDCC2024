@@ -7,19 +7,20 @@ graph = Graph()
 
 # Node descriptions
 node_descriptions = {
-    0: ["wdcc", "A galaxy cluster."],
-    1: ["aquarius_dwarf", "A galaxy in the Aquarius constellation."],
-    2: ["cosmic_redshift", "An effect observed in distant galaxies."],
-    3: ["tucana_dwarf", "A galaxy in the Tucana constellation."],
-    4: ["leo", "A constellation known for the lion shape."],
-    5: ["phoenix", "A galaxy in the Phoenix constellation."],
-    6: ["draco", "A galaxy in the Draco constellation."],
-    7: ["andromeda", "The Andromeda Galaxy, our closest neighbor."],
-    8: ["sesa", "A dark and mysterious galaxy, barely visible through dense clouds of interstellar dust, hiding many secrets within."],
-    9: ["hydra", "A tightly wound spiral galaxy, with a dense central bulge and tightly packed star clusters along its arms."],
-    10: ["lyra", "A fading galaxy with an ethereal beauty, where stars are slowly drifting apart and the glow of ancient light lingers."],
-    11: ["saggitarius", "A grand spiral galaxy with sweeping arms of dust and gas, hosting a supermassive black hole at its core."],
+    0: ["wdcc", "A massive galaxy cluster, such as the Virgo Cluster, which contains thousands of galaxies bound together by gravity."],
+    1: ["aquarius_dwarf", "The Aquarius Dwarf Galaxy, a small irregular galaxy located in the Aquarius constellation, known for its low luminosity and sparse star population."],
+    2: ["cosmic_redshift", "The observed redshift of light from distant galaxies, caused by the expansion of the universe stretching their light to longer wavelengths."],
+    3: ["tucana_dwarf", "The Tucana III Dwarf Galaxy, a small and faint galaxy in the Tucana constellation, recognized for its low surface brightness."],
+    4: ["leo", "The Leo constellation, one of the zodiac constellations, known for its prominent star Regulus and its lion-like shape."],
+    5: ["phoenix", "The Phoenix Galaxy, part of the Phoenix constellation, is a distant galaxy with notable star-forming regions and complex structure."],
+    6: ["draco", "The Draco constellation, home to several interesting galaxies including the Draco I and II Dwarf Galaxies, known for their low surface brightness and irregular shapes."],
+    7: ["andromeda", "The Andromeda Galaxy (M31), a large spiral galaxy and the nearest spiral galaxy to the Milky Way, known for its impressive size and structure."],
+    8: ["sesa", "An enigmatic galaxy located behind dense interstellar dust clouds, making it challenging to observe in detail, often leading to intriguing research."],
+    9: ["hydra", "The Hydra constellation contains several notable galaxies, such as the Hydra I Cluster, which features a large elliptical galaxy with a dense central core."],
+    10: ["lyra", "The Lyra constellation, featuring the Ring Nebula (M57), a planetary nebula with a visually striking ring-like appearance, known for its unique structure."],
+    11: ["saggitarius", "The Sagittarius A* region, the center of the Milky Way galaxy, contains a supermassive black hole and is surrounded by a dense concentration of stars and gas."],
 }
+
 
 # Create reverse lookup for node names
 name_to_node = {desc[0]: node for node, desc in node_descriptions.items()}
