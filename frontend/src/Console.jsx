@@ -12,7 +12,7 @@ const Console = ({ cb, path, travel, exclude, include }) => {
                 break
             case "map":
                 console.log(args[1])
-                cb("/")
+                cb("/map")
                 break
             case "path":
                 console.log(args[1])
@@ -29,9 +29,9 @@ const Console = ({ cb, path, travel, exclude, include }) => {
                 console.log(args[1])
                 include(args[1])
                 break
-            case "back":
-                console.log("Going back to map")
-                cb("/") // Navigates back to the map page
+            case "start":
+                console.log("Going back to start")
+                cb("/") // Navigates back to the start page
                 break
             default:
                 console.log("Unknown command")

@@ -210,7 +210,7 @@ div:has( > .galaxyButton) {
   height: 1080px;
   position:relative;
   transform: scale(0.75);
-  padding-left: 400px;
+  padding-right: 400px;
   padding-bottom: 400px;
 }
 
